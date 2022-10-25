@@ -30,7 +30,7 @@
 
 <!-- Navbars -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
-  <a class="navbar-brand" href="#">Auction111 <!--CHANGEME!--></a>
+  <a class="navbar-brand" href="#">Auction1111 <!--CHANGEME!--></a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
     
