@@ -31,7 +31,7 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>LMYNB</title> <!-- CHANGED --!>
+  <title>Auction</title> <!-- CHANGED --!>
 </head>
 
 

@@ -1,6 +1,6 @@
-DROP DATABASE auction_data;
+DROP DATABASE auction_system;
 
-CREATE DATABASE auction_data
+CREATE DATABASE auction_system
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
   
@@ -11,33 +11,21 @@ CREATE USER 'auctionadmin'@'localhost'
 	IDENTIFIED BY 'adminpassword';
 
 GRANT SELECT, UPDATE, INSERT, DELETE
-    ON auction_data.*
+    ON auction_system.*
     TO 'auctionadmin'@'localhost';
 
-USE auction_data;
+USE auction_system;
 
-CREATE TABLE Users
-(
-  userID INTEGER PRIMARY KEY,
-  userName VARCHAR(15) NOT NULL,
-  email VARCHAR(25),
-  password VARCHAR(25)
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(30) COLLATE utf8_bin NOT NULL,
+  `email` varchar(30) COLLATE utf8_bin NOT NULL,
+  `account_type` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Email` (`email`)
 );
 
-CREATE TABLE Buyers
-(
-  buyerID INTEGER PRIMARY KEY,
-  userID INTEGER 
 
-);
-
-CREATE TABLE Sellers
-(
-  sellerID INTEGER PRIMARY KEY,
-  userID INTEGER 
-
-
-);
 
 
 

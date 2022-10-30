@@ -51,6 +51,7 @@ if($email_input==null){
     }
 }
 
+mysqli_close($connection);
 
 // Redirect to index after 5 seconds
 header("refresh:3;url=index.php");
