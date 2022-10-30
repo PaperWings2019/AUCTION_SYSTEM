@@ -1,0 +1,71 @@
+DROP DATABASE auction_data;
+
+CREATE DATABASE auction_data
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+  
+DROP USER 'auctionadmin'@'localhost';
+FLUSH PRIVILEGES;
+  
+CREATE USER 'auctionadmin'@'localhost'
+	IDENTIFIED BY 'adminpassword';
+
+GRANT SELECT, UPDATE, INSERT, DELETE
+    ON auction_data.*
+    TO 'auctionadmin'@'localhost';
+
+USE auction_data;
+
+CREATE TABLE Users
+(
+  userID INTEGER PRIMARY KEY,
+  userName VARCHAR(15) NOT NULL,
+  email VARCHAR(25),
+  password VARCHAR(25)
+);
+
+CREATE TABLE Buyers
+(
+  buyerID INTEGER PRIMARY KEY,
+  userID INTEGER 
+
+);
+
+CREATE TABLE Sellers
+(
+  sellerID INTEGER PRIMARY KEY,
+  userID INTEGER 
+
+
+);
+
+
+
+CREATE TABLE Auctions
+(
+  itemID INTEGER PRIMARY KEY,
+  itemDescription VARCHAR(200),
+  category INTEGER,
+  startingPrice INTEGER,
+  reservePrice INTEGER,
+  endDate TIMESTAMP,
+  sellerID INTEGER,
+  highestBid INTEGER,
+  auctionStatus INTEGER
+  
+
+
+
+);
+
+
+
+CREATE TABLE BidHistory
+(
+  buyerID INTEGER,
+  itemID INTEGER,
+  bidPrice INTEGER,
+  bidTime TIME
+  
+);
+
