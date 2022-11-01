@@ -36,7 +36,14 @@ if($account_type_input==='buyer'){
 $query_id = "SELECT * FROM user WHERE id=(SELECT MAX(id) FROM user)";
 $result_id = mysqli_query($connection,$query_id);
 $row_id = mysqli_fetch_array($result_id);
-$id_iput=$row_id['id']+1;
+
+if($row_id){
+    $id_iput=$row_id['id']+1;
+}else{
+    //For first user registration
+    $id_iput=1;
+}
+
 
 $query_register = "INSERT INTO user(`id`, `password`, `email`, `account_type`) VALUES ($id_iput,'$password_input','$email_input','$account_type_input')";
 $result_register = mysqli_query($connection,$query_register);
