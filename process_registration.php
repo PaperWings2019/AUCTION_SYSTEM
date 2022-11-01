@@ -45,7 +45,7 @@ if($row_id){
 }
 
 
-$query_register = "INSERT INTO user(`id`, `password`, `email`, `account_type`) VALUES ($id_iput,'$password_input','$email_input','$account_type_input')";
+$query_register = "INSERT INTO user(`id`, `password`, `email`, `account_type`) VALUES ($id_iput,SHA('$password_input'),'$email_input','$account_type_input')";
 $result_register = mysqli_query($connection,$query_register);
 
 echo("Welcome, your id is $id_iput");

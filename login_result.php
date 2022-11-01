@@ -26,9 +26,9 @@ if($email_input==null){
     echo('Please enter your password');
     $_SESSION['logged_in'] = false;
 
-//see if entered data matahes the ones in database
+//check if entered data matah the ones in database
 }elseif(isset($email_input)&&isset($password_input)){
-    $query = "SELECT * FROM user WHERE email='$email_input' and password='$password_input'";
+    $query = "SELECT * FROM user WHERE email='$email_input' and password=SHA('$password_input')";
     $result = mysqli_query($connection,$query);
     $row = mysqli_fetch_array($result);
 
@@ -51,7 +51,6 @@ if($email_input==null){
     }
 }
 
-mysqli_close($connection);
 
 // Redirect to index after 5 seconds
 header("refresh:3;url=index.php");
