@@ -10,10 +10,10 @@ use LDAP\Result;
 // For now, I will just set session variables and redirect.
 
 //connect to mySQL
-$connection = mysqli_connect('localhost','root','','auction_system');
+include_once('database.php');
 
 $email_input=$_POST['email'];
-$password_input=$_POST['password'];
+$password_input=$_POST['password']; 
 
 session_start();
 

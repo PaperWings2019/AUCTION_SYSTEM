@@ -31,12 +31,13 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 CREATE TABLE Auctions
 (
-  itemID INTEGER PRIMARY KEY,
+  itemID INTEGER AUTO_INCREMENT PRIMARY KEY,
+  itemName VARCHAR(50),
   itemDescription VARCHAR(200),
   category INTEGER,
   startingPrice INTEGER,
   reservePrice INTEGER,
-  endDate TIMESTAMP,
+  endDate VARCHAR(20),
   sellerID INTEGER,
   highestBid INTEGER,
   auctionStatus INTEGER

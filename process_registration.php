@@ -6,7 +6,7 @@
 
 session_start();
 
-$connection = mysqli_connect('localhost','root','','auction_system');
+include_once('database.php');   
 
 //collect registration information
 $account_type_input=$_POST['accountType'];
