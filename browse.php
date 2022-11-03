@@ -1,5 +1,6 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
+<?php include_once("database.php")?>
 
 <div class="container">
 
@@ -20,33 +21,43 @@
               <i class="fa fa-search"></i>
             </span>
           </div>
-          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything">
+          <input type="text" class="form-control border-left-0" name="keyword" id="keyword" placeholder="Search for anything">
         </div>
       </div>
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
         <label for="cat" class="sr-only">Search within:</label>
-        <select class="form-control" id="cat">
+        <select class="form-control" id="cat" name="cat">
           <option selected value="all">All categories</option>
-          <option value="fill">Fill me in</option>
-          <option value="with">with options</option>
-          <option value="populated">populated from a database?</option>
+          <?php
+            // // todo: get all categories and echo the corresponding option
+            $sql_cat = "SELECT DISTINCT a.category
+                        FROM auctions a
+                        ";
+            $result_cat = mysqli_query($connection, $sql_cat);
+            $result_cat_fetched = mysqli_fetch_all($result_cat);
+            
+            foreach ($result_cat_fetched as $index => $cats) {
+              echo "<option value=$cats[0]>$cats[0]</option>";
+            }
+          ?>
         </select>
       </div>
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
-        <select class="form-control" id="order_by">
+        <select class="form-control" id="order_by" name="order_by">
           <option selected value="pricelow">Price (low to high)</option>
           <option value="pricehigh">Price (high to low)</option>
-          <option value="date">Soonest expiry</option>
+          <option value="datelow">Soonest expiry</option>
+          <option value="datehigh">Slowest expiry</option>
         </select>
       </div>
     </div>
     <div class="col-md-1 px-0">
-      <button type="submit" class="btn btn-primary">Search</button>
+      <button type="submit" class="btn btn-primary" name="searched" value="true">Search</button>
     </div>
   </div>
 </form>
@@ -56,28 +67,34 @@
 </div>
 
 <?php
+  // echo var_dump($_GET);
   // Retrieve these from the URL
+  // var_dump($result_cat_fetched);
   if (!isset($_GET['keyword'])) {
-    // TODO: Define behavior if a keyword has not been specified.
+    // // TODO: Define behavior if a keyword has not been specified.
+    $keyword = '';
+    
+    // todo: the default value may be the recommendation
   }
   else {
     $keyword = $_GET['keyword'];
   }
 
   if (!isset($_GET['cat'])) {
-    // TODO: Define behavior if a category has not been specified.
+    // // TODO: Define behavior if a category has not been specified.
+    $category = 'all';
   }
   else {
     $category = $_GET['cat'];
   }
-  
   if (!isset($_GET['order_by'])) {
-    // TODO: Define behavior if an order_by value has not been specified.
+    // // TODO: Define behavior if an order_by value has not been specified.
+    $order_by = 'pricelow';
   }
   else {
-    $ordering = $_GET['order_by'];
+    $order_by = $_GET['order_by'];
   }
-  
+
   if (!isset($_GET['page'])) {
     $curr_page = 1;
   }
@@ -85,15 +102,36 @@
     $curr_page = $_GET['page'];
   }
 
-  /* TODO: Use above values to construct a query. Use this query to 
-     retrieve data from the database. (If there is no form data entered,
-     decide on appropriate default value/default query to make. */
-  
-  /* For the purposes of pagination, it would also be helpful to know the
-     total number of results that satisfy the above query */
-  $num_results = 96; // TODO: Calculate me for real
-  $results_per_page = 10;
-  $max_page = ceil($num_results / $results_per_page);
+    /* TODO: Use above values to construct a query. Use this query to 
+      retrieve data from the database. (If there is no form data entered,
+      decide on appropriate default value/default query to make. */
+    
+    /* For the purposes of pagination, it would also be helpful to know the
+      total number of results that satisfy the above query */
+    $sql = "SELECT DISTINCT *
+            FROM auctions a
+            WHERE (a.itemDescription LIKE '%$keyword%'
+            OR a.itemName LIKE '%$keyword%') ";
+    if ($category != 'all') {
+      $sql .= "AND a.category = '$category'";
+    }
+    if ($order_by == "pricelow") {
+      $sql .= "ORDER BY a.highestBid ASC";
+    } elseif ($order_by == 'pricehigh') {
+      $sql .= "ORDER BY a.highestBid DESC";
+    } elseif ($order_by == 'datehigh') {
+      $sql .= "ORDER BY a.endDate DESC";
+    } elseif ($order_by == 'datelow') {
+      $sql .= "ORDER BY a.endDate ASC";
+    } 
+    $result = mysqli_query($connection, $sql);
+    // var_dump($result);
+    $result_fetched = mysqli_fetch_all($result);
+    // var_dump($result_fetched);
+    $num_results = $result->num_rows; // // TODO: Calculate me for real
+    // var_dump($num_results);
+    $results_per_page = 10;
+    $max_page = ceil($num_results / $results_per_page);
 ?>
 
 <div class="container mt-5">
@@ -106,25 +144,17 @@
      retrieved from the query -->
 
 <?php
-  // Demonstration of what listings will look like using dummy data.
-  $item_id = "87021";
-  $title = "Dummy title";
-  $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget rutrum ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus feugiat, ipsum vel egestas elementum, sem mi vestibulum eros, et facilisis dui nisi eget metus. In non elit felis. Ut lacus sem, pulvinar ultricies pretium sed, viverra ac sapien. Vivamus condimentum aliquam rutrum. Phasellus iaculis faucibus pellentesque. Sed sem urna, maximus vitae cursus id, malesuada nec lectus. Vestibulum scelerisque vulputate elit ut laoreet. Praesent vitae orci sed metus varius posuere sagittis non mi.";
-  $current_price = 30;
-  $num_bids = 1;
-  $end_date = new DateTime('2020-09-16T11:00:00');
-  
-  // This uses a function defined in utilities.php
-  print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
-  
-  $item_id = "516";
-  $title = "Different title";
-  $description = "Very short description.";
-  $current_price = 13.50;
-  $num_bids = 3;
-  $end_date = new DateTime('2020-11-02T00:00:00');
-  
-  print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+  foreach ($result_fetched as $index => $infos) {
+    $item_id = $infos[0];
+    $title = $infos[1];
+    $description = $infos[2];
+    $current_price = $infos[8];
+    $num_bids = 1;
+    $end_date = new DateTime($infos[6]); // // todo: make it a valid datetime format
+
+    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+  }
+
 ?>
 
 </ul>
