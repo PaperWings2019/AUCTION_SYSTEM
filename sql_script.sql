@@ -7,8 +7,8 @@ CREATE DATABASE IF NOT EXISTS auction_system
 DROP IF EXISTS USER 'auctionadmin'@'localhost';
 FLUSH PRIVILEGES;
   
-CREATE IF NOT EXISTS USER 'auctionadmin'@'localhost'
-	IDENTIFIED BY 'adminpassword';
+--CREATE IF NOT EXISTS USER 'auctionadmin'@'localhost'
+	--IDENTIFIED BY 'adminpassword';
 
 GRANT SELECT, UPDATE, INSERT, DELETE
     ON auction_system.*
@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `auctions` (
   `sellerID` int DEFAULT NULL,
   `highestBid` int DEFAULT NULL,
   `auctionStatus` int DEFAULT NULL,
+  `buyerID` int Default null,
   PRIMARY KEY (`itemID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
@@ -75,7 +76,7 @@ CREATE TABLE BidHistory
   buyerID INTEGER,
   itemID INTEGER,
   bidPrice INTEGER,
-  bidTime TIME
+  bidTime DATETIME
 
 );
 

@@ -5,17 +5,23 @@
   // Get info from the URL:
   $item_id = $_GET['item_id'];
 
-  // TODO: Use item_id to make a query to the database.
+  // TODO(Done): Use item_id to make a query to the database.
 
-  // DELETEME: For now, using placeholder data.
-  $title = "Placeholder title";
-  $description = "Description blah blah blah";
-  $current_price = 30.50;
-  $num_bids = 1;
-  $end_time = new DateTime('2020-11-02T00:00:00');
+  include_once('database.php');
+  $sql = "SELECT * FROM auctions WHERE itemID = $item_id";
+  $result = mysqli_query($connection,$sql);
+  $row = mysqli_fetch_row($result);
+  //var_dump($row);
 
-  // TODO: Note: Auctions that have ended may pull a different set of data,
-  //       like whether the auction ended in a sale or was cancelled due
+  // (Done)DELETEME: For now, using placeholder data.
+  $title = $row[1];
+  $description = $row[2];
+  $current_price = $row[8];
+  $num_bids = 1;//TODO
+  $end_time = new DateTime($row[6]);
+
+  // TODO(Done): Note: Auctions that have ended may pull a different set of data,
+  //       like whether the auction ended in a sal oer was cancelled due
   //       to lack of high-enough bids. Or maybe not.
   
   // Calculate time to auction end:
@@ -71,7 +77,17 @@
     <p>
 <?php if ($now > $end_time): ?>
      This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
-     <!-- TODO: Print the result of the auction here? -->
+     <!-- TODO(Done): Print the result of the auction here? -->
+    <div>
+      <?php if ($row[5]<$row[8]):
+          echo "This auction ended due to lack of high-enough bids";
+      else:
+          echo "This auction ended in sale"; ?>
+          <div>
+            <?php echo "The winner of this auction is ". $row['10'];?>
+          </div>   
+      <?php endif ?>
+    </div>
 <?php else: ?>
      Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
@@ -82,7 +98,9 @@
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" id="bid">
+	    <input type="number" class="form-control" id="bid"  name="bidInput">
+      <!-- post the item id to successfully header to the original page -->
+      <input type="hidden" name="item_id" value=<?php echo $item_id ?>>
       </div>
       <button type="submit" class="btn btn-primary form-control">Place bid</button>
     </form>
