@@ -1,15 +1,40 @@
 <?php include_once("header.php")?>
 
 <?php
-/* (Uncomment this block to redirect people without selling privileges away from this page)
-  // If user is not logged in or not a seller, they should not be able to
-  // use this page.
-  if (!isset($_SESSION['account_type']) || $_SESSION['account_type'] != 'seller') {
+  
+  
+  if ($_SESSION['logged_in']==false || $_SESSION['account_type'] != 'seller') {
     header('Location: browse.php');
   }
-*/
+
 ?>
 
+<style>
+.errorMessage {
+  background-color: pink;
+  width: 240px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 107px;
+  visibility: hidden;
+  border-radius: 10px;
+  position: relative;
+  float: left;
+}
+.errorMessage.top-arrow:after {
+  color: pink;
+  content: " ";
+  position: absolute;
+  right: 90px;
+  top: -15px;
+  border-top: none;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 15px solid pink;
+}
+</style>
 <div class="container">
 
 <!-- Create auction form -->
@@ -24,12 +49,13 @@
       before they try to send it, but that kind of functionality should be
       extremely low-priority / only done after all database functions are
       complete. -->
-      <form method="POST" action="create_auction_result.php">
+      <form name="auctionForm" method="POST" action="create_auction_result.php" onsubmit = "return validateForm()">
         <div class="form-group row">
           <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
           <div class="col-sm-10">
             <input name="auctionTitle" type="text" class="form-control" id="auctionTitle" placeholder="e.g. Black mountain bike">
             <small id="titleHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> A short description of the item you're selling, which will display in listings.</small>
+            <p class = "errorMessage top-arrow" > </p>
           </div>
         </div>
         <div class="form-group row">
@@ -44,11 +70,16 @@
           <div class="col-sm-10">
             <select name="auctionCategory" class="form-control" id="auctionCategory">
               <option selected>Choose...</option>
-              <option value="1">Fill me in</option>
-              <option value="2">with options</option>
-              <option value="3">populated from a database?</option>
+              <option value="1">Art</option>
+              <option value="2">Book</option>
+              <option value="3">Clothes</option>
+              <option value="4">Electronics</option>
+              <option value="5">Music & DVDs</option>
+              <option value="6">Toys and Games</option>
+              <option value="7">Others</option>
             </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
+            <p class = "errorMessage top-arrow" > </p>
           </div>
         </div>
         <div class="form-group row">
@@ -59,8 +90,10 @@
                 <span class="input-group-text">£</span>
               </div>
               <input name="auctionStartPrice" type="number" class="form-control" id="auctionStartPrice">
+              
             </div>
             <small id="startBidHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Initial bid amount.</small>
+            <p class = "errorMessage top-arrow" > </p>
           </div>
         </div>
         <div class="form-group row">
@@ -80,6 +113,7 @@
           <div class="col-sm-10">
             <input name="auctionEndDate" type="datetime-local" class="form-control" id="auctionEndDate">
             <small id="endDateHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Day for the auction to end.</small>
+            <p class = "errorMessage top-arrow" > </p>
           </div>
         </div>
         <button type="submit" class="btn btn-primary form-control">Create Auction</button>
@@ -89,6 +123,37 @@
 </div>
 
 </div>
+
+
+<script>
+  function validateForm() {
+    var nameVal_1 = document.forms["auctionForm"]["auctionTitle"].value;
+    var nameVal_2 = document.forms["auctionForm"]["auctionCategory"].value;
+    var nameVal_3 = document.forms["auctionForm"]["auctionStartPrice"].value;
+    var nameVal_4 = document.forms["auctionForm"]["auctionEndDate"].value;
+
+
+  if(nameVal_1 == null || nameVal_1 == "") {
+    document.getElementsByClassName( "errorMessage" )[0].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[0].innerHTML = "Please Fill in the Auction Title!";
+    return false;
+  } else if (nameVal_2 == null || nameVal_2 == "Choose..."){
+    document.getElementsByClassName( "errorMessage" )[1].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[1].innerHTML = "Please Select a category!";
+    return false;
+  } else if (nameVal_3 == null || nameVal_3 == ""){
+    document.getElementsByClassName( "errorMessage" )[2].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[2].innerHTML = "Please Fill in the starting price!";
+    return false;
+  } else if (nameVal_4 == null || nameVal_4 == ""){
+    document.getElementsByClassName( "errorMessage" )[3].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[3].innerHTML = "Please Fill in the End date!";
+    return false;
+  } else {
+  return true;
+  }
+  }
+</script>
 
 
 <?php include_once("footer.php")?>
