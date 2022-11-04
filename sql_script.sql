@@ -1,14 +1,19 @@
-DROP DATABASE IF EXISTS auction_system;
+DROP DATABASE auction_system;
 
-CREATE DATABASE IF NOT EXISTS auction_system
+CREATE DATABASE auction_system
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
   
-DROP IF EXISTS USER 'auctionadmin'@'localhost';
+DROP USER 'auctionadmin'@'localhost';
 FLUSH PRIVILEGES;
   
+<<<<<<< HEAD
 --CREATE IF NOT EXISTS USER 'auctionadmin'@'localhost'
 	--IDENTIFIED BY 'adminpassword';
+=======
+CREATE USER 'auctionadmin'@'localhost'
+	IDENTIFIED BY 'adminpassword';
+>>>>>>> 9d6e7498e58fc7c74d270ca3806026c2336dcae1
 
 GRANT SELECT, UPDATE, INSERT, DELETE
     ON auction_system.*
@@ -79,4 +84,3 @@ CREATE TABLE BidHistory
   bidTime DATETIME
 
 );
-

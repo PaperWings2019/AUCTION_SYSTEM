@@ -25,7 +25,13 @@ if($password_input!=$password_confirmation_input){
 }elseif($row){
     echo ('Email address already existed, please login.');
     header("refresh:3;url=browse.php");
-}else{
+}elseif(!filter_var($email_input, FILTER_VALIDATE_EMAIL)){
+    echo "$email_input is NOT a valid email address.";
+}elseif(strlen($password_input)<8){
+    echo ('Please make sure that you entered a password longer than 8 digits');
+    header("refresh:3;url=register.php");
+}
+else{
 if($account_type_input==='buyer'){
     $account_type_input=0;
 }else{
