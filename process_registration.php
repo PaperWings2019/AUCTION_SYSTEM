@@ -14,6 +14,8 @@ $email_input=$_POST['email'];
 $password_input=$_POST['password'];
 $password_confirmation_input=$_POST['passwordConfirmation'];
 
+$password_pattern='/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{8,20}/';
+
 $query = "SELECT * FROM user WHERE email='$email_input'";
 $result = mysqli_query($connection,$query);
 $row = mysqli_fetch_array($result);
@@ -27,8 +29,8 @@ if($password_input!=$password_confirmation_input){
     header("refresh:3;url=browse.php");
 }elseif(!filter_var($email_input, FILTER_VALIDATE_EMAIL)){
     echo "$email_input is NOT a valid email address.";
-}elseif(strlen($password_input)<8){
-    echo ('Please make sure that you entered a password longer than 8 digits');
+}elseif(!preg_match($password_pattern,$password_input)){
+    echo ('Please make sure that you entered a password with at least 8 characters, including a number, an upper case letter, and a lower case letter');
     header("refresh:3;url=register.php");
 }
 else{

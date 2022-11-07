@@ -30,7 +30,7 @@
     <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
     <div class="col-sm-10">
       <input type="password" class="form-control" name="password"  id="password" placeholder="Password">
-      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Required. Must longer than 8 digits.</span></small>
+      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Required.<br/>* 8-30 characters.<br/>* a number.<br/>* an upper case letter.<br/>* a lower case letter</span></small>
     </div>
   </div>
   <div class="form-group row">
