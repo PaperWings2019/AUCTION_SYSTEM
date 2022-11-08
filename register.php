@@ -29,8 +29,8 @@
   <div class="form-group row">
     <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" name="password"  id="password" placeholder="Password">
-      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Required.<br/>* 8-30 characters.<br/>* a number.<br/>* an upper case letter.<br/>* a lower case letter</span></small>
+      <input type="password" class="form-control" onclick="password_requiremwnt()" name="password"  id="password" placeholder="Password">
+      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Required.<br/><p id="demo"></p></span></small>
     </div>
   </div>
   <div class="form-group row">
@@ -50,3 +50,11 @@
 </div>
 
 <?php include_once("footer.php")?>
+
+<script>
+function password_requiremwnt()
+{
+    document.getElementById("demo").innerHTML="* 8-20 characters.<br/>* a number.<br/>* an upper case letter.<br/>* a lower case letter.";
+}
+</script>
+
