@@ -105,7 +105,9 @@
               </div>
               <input name="auctionReservePrice" type="number" class="form-control" id="auctionReservePrice">
             </div>
-            <small id="reservePriceHelp" class="form-text text-muted">Optional. Auctions that end below this price will not go through. This value is not displayed in the auction listing.</small>
+            <small id="reservePriceHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Must be higher than starting price. Auctions that end below this price will not go through. This value is not displayed in the auction listing.</small>
+            <span class = "errorMessage top-arrow" > </span>
+            <span class = "errorMessage top-arrow" > </span>
           </div>
         </div>
         <div class="form-group row">
@@ -130,7 +132,9 @@
     var nameVal_1 = document.forms["auctionForm"]["auctionTitle"].value;
     var nameVal_2 = document.forms["auctionForm"]["auctionCategory"].value;
     var nameVal_3 = document.forms["auctionForm"]["auctionStartPrice"].value;
-    var nameVal_4 = document.forms["auctionForm"]["auctionEndDate"].value;
+    var nameVal_4 = document.forms["auctionForm"]["auctionReservePrice"].value;
+    var nameVal_5 = document.forms["auctionForm"]["auctionEndDate"].value;
+
 
 
   if(nameVal_1 == null || nameVal_1 == "") {
@@ -138,21 +142,42 @@
     document.getElementsByClassName( "errorMessage" )[0].innerHTML = "Please Fill in the Auction Title!";
     return false;
   } else if (nameVal_2 == null || nameVal_2 == "Choose..."){
+    removeError(1)
     document.getElementsByClassName( "errorMessage" )[1].style.visibility = "visible";
     document.getElementsByClassName( "errorMessage" )[1].innerHTML = "Please Select a category!";
     return false;
   } else if (nameVal_3 == null || nameVal_3 == ""){
+    removeError(2)
     document.getElementsByClassName( "errorMessage" )[2].style.visibility = "visible";
     document.getElementsByClassName( "errorMessage" )[2].innerHTML = "Please Fill in the starting price!";
     return false;
   } else if (nameVal_4 == null || nameVal_4 == ""){
     document.getElementsByClassName( "errorMessage" )[3].style.visibility = "visible";
-    document.getElementsByClassName( "errorMessage" )[3].innerHTML = "Please Fill in the End date!";
+    removeError(3)
+    document.getElementsByClassName( "errorMessage" )[3].innerHTML = "Please Fill in the reserve price!";
+    return false;
+  }else if (nameVal_4 <= nameVal_3){
+    removeError(4)
+    document.getElementsByClassName( "errorMessage" )[4].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[4].innerHTML = "The reserve price must be higher than the starting price!";
+    return false;
+  }else if (nameVal_5 == null || nameVal_5 == ""){
+    removeError(5)
+    document.getElementsByClassName( "errorMessage" )[5].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[5].innerHTML = "Please Fill in the End date!";
     return false;
   } else {
   return true;
   }
   }
+
+
+  function removeError(index){
+    for (let i = 0; i<index; i++){
+      document.getElementsByClassName( "errorMessage" )[i].style.visibility = "hidden";
+    }
+  }
+
 </script>
 
 

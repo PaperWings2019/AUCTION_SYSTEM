@@ -1,5 +1,10 @@
 /* Any custom CSS you would like to specify for your site can go here. */
 
+table {
+    border-collapse: collapse;
+  }
+
+
 .errorMessage {
     background-color: pink;
     width: 240px;
@@ -24,3 +29,6 @@
     border-left: 10px solid transparent;
     border-bottom: 15px solid pink;
   }
+
+
+  
