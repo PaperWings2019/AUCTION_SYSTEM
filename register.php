@@ -54,7 +54,7 @@
 <script>
 function password_requiremwnt()
 {
-    document.getElementById("demo").innerHTML="* 8-30 characters.<br/>* a number.<br/>* an upper case letter.<br/>* a lower case letter.";
+    document.getElementById("demo").innerHTML="* 8-20 characters.<br/>* a number.<br/>* an upper case letter.<br/>* a lower case letter.";
 }
 </script>
 
