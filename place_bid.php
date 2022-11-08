@@ -48,6 +48,6 @@ if($row_id){
     echo ("Congratulations! You have sucessfully submit your bid!");
     // header("refresh:3;url=listing.php?item_id=$item_id");
 }
-header("refresh:3;url=listing.php?item_id=$item_id");
+header("refresh:1;url=listing.php?item_id=$item_id");
 }
 ?>

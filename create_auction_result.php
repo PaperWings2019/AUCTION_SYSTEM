@@ -66,7 +66,7 @@
     
     
     $query = "INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`, `buyerID`) 
-    VALUES (NULL, '$auction_title', '$auction_details', '$auction_category', '$start_price', '$reserve_price', '$end_date', '$seller_id', NULL, NULL, NULL);";
+    VALUES (NULL, '$auction_title', '$auction_details', '$auction_category', '$start_price', '$reserve_price', '$end_date', '$seller_id', '$start_price', NULL, NULL);";
     
     if(!mysqli_query($connection,$query)){
         die('Error: ' . mysqli_error($connection));

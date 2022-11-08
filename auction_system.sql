@@ -48,7 +48,10 @@ CREATE TABLE IF NOT EXISTS `auctions` (
 --
 
 INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`, `buyerID`) VALUES
-(18, 'AJ1', 'Fancy shoes', '3', 100, 200, '2022-11-09T12:44', 2, 133, NULL, 1);
+(18, 'AJ1', 'Fancy shoes', '3', 100, 200, '2022-11-09T12:44', 2, 133, NULL, 1),
+(19, 'Toy car', 'toy car', '6', 10, 10, '2022-11-09T12:44', 3, 10, NULL, NULL),
+(20, 'iPhone3', 'old phone', '6', 50, 50, '2022-11-09T12:44', 3, 50, NULL, NULL);
+
 
 
 -- --------------------------------------------------------

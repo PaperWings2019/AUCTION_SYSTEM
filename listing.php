@@ -1,10 +1,18 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
 
+<style>
+table, th, td{
+  border-collapse = 'collapse';
+  
+  border: 1px solid;
+}
+</style>
+
 <?php
   // Get info from the URL:
   $item_id = $_GET['item_id'];
-  
+  $account_type = $_SESSION['account_type'];
 
   // TODO(Done): Use item_id to make a query to the database.
 
@@ -51,7 +59,7 @@
 <?php
   /* The following watchlist functionality uses JavaScript, but could
      just as easily use PHP as in other places in the code */
-  if ($now < $end_time):
+  if ($now < $end_time && $account_type == 'buyer'):
 ?>
     <div id="watch_nowatch" <?php if ($has_session && $watching) echo('style="display: none"');?> >
       <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to watchlist</button>
@@ -93,19 +101,24 @@
      Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
 
-    
-    <!-- Bidding form -->
-    <form method="POST" action="place_bid.php">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">£</span>
+    <?php if($account_type == 'buyer'): ?>
+      <!-- Bidding form -->
+      <form method="POST" action="place_bid.php">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">£</span>
+          </div>
+        <input type="number" class="form-control" id="bid"  name="bidInput">
+        <!-- post the item id to successfully header to the original page -->
+        <input type="hidden" name="item_id" value=<?php echo $item_id ?>>
         </div>
-	    <input type="number" class="form-control" id="bid"  name="bidInput">
-      <!-- post the item id to successfully header to the original page -->
-      <input type="hidden" name="item_id" value=<?php echo $item_id ?>>
-      </div>
-      <button type="submit" class="btn btn-primary form-control">Place bid</button>
-    </form>
+        <button type="submit" class="btn btn-primary form-control">Place bid</button>
+      </form>
+    
+    <?php else: ?>
+      <div> You must be <button type="button" data-toggle="modal" data-target="#loginModal">logged in</button> as a buyer to place bids </div>
+      
+    <?php endif ?>
 <?php endif ?>
 
   
@@ -113,6 +126,37 @@
 
 </div> <!-- End of row #2 -->
 
+<?php
+  $query = "SELECT buyerID, bidPrice, bidTime FROM `bidHistory` WHERE itemid = $item_id ORDER BY bidID DESC";
+  $result_1 = mysqli_query($connection, $query);
+?>
+
+
+<table>
+  <tr>
+    <th> Buyer ID </th>
+    <th> Bid Price </th>
+    <th> Bid Time </th>
+  </tr>
+  <?php while($row = mysqli_fetch_row($result_1)): ?>
+    <tr>
+      <th> <?php echo $row[0] ?> </th>
+      <th> <?php echo '£'.$row[1] ?> </th>
+      <th> <?php echo $row[2] ?> </th>
+    </tr>
+  <?php endwhile; ?>
+  
+</table>  
+
+
+
+
+
+
+<div>
+
+
+</div>
 
 
 <?php include_once("footer.php")?>
