@@ -4,6 +4,7 @@
 <?php
   // Get info from the URL:
   $item_id = $_GET['item_id'];
+  
 
   // TODO(Done): Use item_id to make a query to the database.
 
@@ -92,6 +93,7 @@
      Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
 
+    
     <!-- Bidding form -->
     <form method="POST" action="place_bid.php">
       <div class="input-group">

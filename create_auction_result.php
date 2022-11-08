@@ -6,7 +6,7 @@
 <?php
 
 
-    $user_id = $_SESSION["id"];
+    $seller_id = $_SESSION["id"];
 // This function takes the form data and adds the new auction to the database.
 
 /* TODO #1: Connect to MySQL database (perhaps by requiring a file that
@@ -25,14 +25,23 @@
 
     
 
-    if(!$_POST['auctionTitle']==null){
+    if(isset($_POST['auctionTitle'])){
         $auction_title = $_POST['auctionTitle'];    
      }
 
     
-    $auction_details = $_POST['auctionDetails'];
-    $auction_category = $_POST['auctionCategory'];
-    $start_price = $_POST['auctionStartPrice'];
+     if(isset($_POST['auctionDetails'])){
+        $auction_details = $_POST['auctionDetails'];
+     }
+        
+    if(isset($_POST['auctionCategory'])){
+        $auction_category = $_POST['auctionCategory'];
+    }
+    
+    if(isset($_POST['auctionStartPrice'])){
+        $start_price = $_POST['auctionStartPrice'];
+    }
+    
 
 
      
@@ -42,7 +51,10 @@
         $reserve_price = 2147483647;
     }
     
-    $end_date = $_POST['auctionEndDate'];    
+    if(isset($_POST['auctionEndDate'])){
+        $end_date = $_POST['auctionEndDate'];   
+    }
+     
 
 
 
@@ -53,7 +65,8 @@
             data into the database. */
     
     
-    $query = "INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`) VALUES (NULL, '$auction_title', '$auction_details', '$auction_category', '$start_price', '$reserve_price', '$end_date', '$user_id', NULL, NULL);";
+    $query = "INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`, `buyerID`) 
+    VALUES (NULL, '$auction_title', '$auction_details', '$auction_category', '$start_price', '$reserve_price', '$end_date', '$seller_id', NULL, NULL, NULL);";
     
     if(!mysqli_query($connection,$query)){
         die('Error: ' . mysqli_error($connection));
@@ -63,7 +76,12 @@
 
 
 // If all is successful, let user know.
-echo('<div class="text-center">Auction successfully created! <a href="FIXME">View your new listing.</a></div>');
+    $get_id = "SELECT MAX(itemID) FROM `auctions` WHERE sellerID = 3;";
+    $result = mysqli_query($connection,$get_id);
+    $item_id = mysqli_fetch_array($result);
+    
+    $address = "listing.php?item_id=".strval($item_id[0]);
+    echo('<div class="text-center">Auction successfully created! <a href='.$address.'>View your new listing.</a></div>');
 
 
 ?>

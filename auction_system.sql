@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `auctions` (
   `sellerID` int(11) DEFAULT NULL,
   `highestBid` int(11) DEFAULT NULL,
   `auctionStatus` int(11) DEFAULT NULL,
-  `buyerID` int(30) NOT NULL,
+  `buyerID` int(30),
   PRIMARY KEY (`itemID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
@@ -48,7 +48,8 @@ CREATE TABLE IF NOT EXISTS `auctions` (
 --
 
 INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`, `buyerID`) VALUES
-(18, 'AJ1', 'Fancy shows', '3', 100, 200, '2022-11-09T12:44', 2, 133, NULL, 1);
+(18, 'AJ1', 'Fancy shoes', '3', 100, 200, '2022-11-09T12:44', 2, 133, NULL, 1);
+
 
 -- --------------------------------------------------------
 
@@ -87,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `password`, `email`, `account_type`) VALUES
+(4, '719317d0722c7f5122475de7b17246795e74e3c9', 'muyaoli123@gmail.com', 0),
+(3, '719317d0722c7f5122475de7b17246795e74e3c9', '1427578193@qq.com', 1),
 (2, 'e44daa2696689a3ec249cf684bc0670c6935d1bb', 'chengkai.dai.22@ucl.ac.uk', 1),
 (1, 'e44daa2696689a3ec249cf684bc0670c6935d1bb', '1823963114@qq.com', 0);
 COMMIT;
