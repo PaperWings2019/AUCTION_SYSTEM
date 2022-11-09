@@ -6,7 +6,7 @@
 <?php
 
 
-    $seller_id = $_SESSION["id"];
+    $seller_id = $_SESSION["user_id"];
 // This function takes the form data and adds the new auction to the database.
 
 /* TODO #1: Connect to MySQL database (perhaps by requiring a file that
@@ -76,7 +76,7 @@
 
 
 // If all is successful, let user know.
-    $get_id = "SELECT MAX(itemID) FROM `auctions` WHERE sellerID = 3;";
+    $get_id = "SELECT MAX(itemID) FROM `auctions` WHERE sellerID = $seller_id;";
     $result = mysqli_query($connection,$get_id);
     $item_id = mysqli_fetch_array($result);
     

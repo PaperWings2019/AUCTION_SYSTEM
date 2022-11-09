@@ -19,8 +19,8 @@
     header('Location: browse.php');
   }
 
-  if(isset($_SESSION['id']  )){
-    $buyer_id = $_SESSION['id'];
+  if(isset($_SESSION['user_id']  )){
+    $buyer_id = $_SESSION['user_id'];
   } else {
     echo 'no id error';
   }

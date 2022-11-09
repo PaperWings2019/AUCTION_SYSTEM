@@ -28,7 +28,7 @@ if (empty($bidInput)){
     echo ("You can not enter a bid price that less than the current highest bid price");
     // header("refresh:3;url=listing.php?item_id=$item_id");
 }else{
-    $SESSION_id = $_SESSION['id'];
+    $SESSION_id = $_SESSION['user_id'];
     $bidSubmitTime = date_format(new DateTime(), 'Y-m-d H:i:s');
     $update_sql = "UPDATE auctions SET highestBid = $bidInput, buyerID = $SESSION_id where itemID = $item_id";
     $update_result = mysqli_query($connection,$update_sql);

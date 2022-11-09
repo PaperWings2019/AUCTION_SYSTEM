@@ -9,9 +9,9 @@
   if(!isset($_SESSION) | $_SESSION==null){
     $_SESSION['logged_in'] = false;
     $_SESSION['account_type'] = 'seller';
-    $_SESSION['id'] = null;
-  }elseif($_SESSION['id'] != null){
-    $user_id=$_SESSION['id'];
+    $_SESSION['user_id'] = null;
+  }elseif($_SESSION['user_id'] != null){
+    $user_id=$_SESSION['user_id'];
     $account_type = $_SESSION['account_type'];
   }
 

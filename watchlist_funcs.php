@@ -1,4 +1,7 @@
  <?php
+ 
+include_once('database.php');
+session_start();
 
 if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
   return;

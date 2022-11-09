@@ -1,9 +1,5 @@
 <?php
 
-use LDAP\Result;
-
-//include_once("Config.php");
-
 // TODO: Extract $_POST variables, check they're OK, and attempt to login.
 // Notify user of success/failure and redirect/give navigation options.
 
@@ -37,9 +33,9 @@ if($email_input==null){
 
         //Session setup for successful login
         $_SESSION['logged_in'] = true;
-        $_SESSION['id'] = $row['id'];
+        $_SESSION['user_id'] = $row['userID'];
 
-        if($row['account_type']==0){
+        if($row['accountType']==0){
             $_SESSION['account_type'] = "buyer";
         }else{
             $_SESSION['account_type'] = "seller";
