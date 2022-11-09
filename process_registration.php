@@ -41,19 +41,19 @@ if($account_type_input==='buyer'){
 }
 
 //Attribute a id for new user
-$query_id = "SELECT * FROM user WHERE id=(SELECT MAX(id) FROM user)";
+$query_id = "SELECT * FROM user WHERE userID=(SELECT MAX(userID) FROM user)";
 $result_id = mysqli_query($connection,$query_id);
 $row_id = mysqli_fetch_array($result_id);
 
 if($row_id){
-    $id_iput=$row_id['id']+1;
+    $id_iput=$row_id['userID']+1;
 }else{
     //For first user registration
     $id_iput=1;
 }
 
 
-$query_register = "INSERT INTO user(`id`, `password`, `email`, `account_type`) VALUES ($id_iput,SHA('$password_input'),'$email_input','$account_type_input')";
+$query_register = "INSERT INTO user(`userID`, `password`, `email`, `accountType`) VALUES ($id_iput,SHA('$password_input'),'$email_input','$account_type_input')";
 $result_register = mysqli_query($connection,$query_register);
 
 echo("Welcome, your id is $id_iput");
@@ -61,7 +61,7 @@ echo("Welcome, your id is $id_iput");
 
 //Automatic login after registration
 $_SESSION['logged_in'] = true;
-$_SESSION['id'] = $id_iput;
+$_SESSION['user_id'] = $id_iput;
 if($account_type_input===0){
      $_SESSION['account_type'] = "buyer";
 }else{
