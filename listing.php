@@ -85,15 +85,15 @@ table, th, td{
 
     <p>
 <?php if ($now > $end_time): ?>
-     This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+     This auction ended on <?php echo(date_format($end_time, 'j M H:i')) ?>
      <!-- TODO(Done): Print the result of the auction here? -->
     <div>
-      <?php if ($row[5]<$row[8]):
+      <?php if ($row[5]>$row[8]):
           echo "This auction ended due to lack of high-enough bids";
       else:
-          echo "This auction ended in sale"; ?>
+          echo "This item is sold!"; ?>
           <div>
-            <?php echo "The winner of this auction is ". $row['10'];?>
+            <?php echo "The winner of this auction is User ". $row['10'];?>
           </div>   
       <?php endif ?>
     </div>

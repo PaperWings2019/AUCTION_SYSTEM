@@ -53,6 +53,6 @@ if($email_input==null){
 
 
 // Redirect to index after 5 seconds
-header("refresh:3;url=index.php");
+header("refresh:0.3;url=index.php");
 
 ?>
