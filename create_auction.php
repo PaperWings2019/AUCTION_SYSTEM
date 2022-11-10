@@ -156,7 +156,7 @@
     removeError(3)
     document.getElementsByClassName( "errorMessage" )[3].innerHTML = "Please Fill in the reserve price!";
     return false;
-  }else if (nameVal_4 <= nameVal_3){
+  }else if (parseInt(nameVal_4) <= parseInt(nameVal_3)){
     removeError(4)
     document.getElementsByClassName( "errorMessage" )[4].style.visibility = "visible";
     document.getElementsByClassName( "errorMessage" )[4].innerHTML = "The reserve price must be higher than the starting price!";
