@@ -32,7 +32,7 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>Auction101</title> <!-- CHANGED --!>
+  <title>Auction</title> <!-- CHANGED --!>
 </head>
 
 
