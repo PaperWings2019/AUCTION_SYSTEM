@@ -145,12 +145,25 @@
 
 <?php
   foreach ($result_fetched as $index => $infos) {
+
+    $bids_number_query = "SELECT count(*) FROM `bidhistory` WHERE itemID = $infos[0]";
+    if(true){
+      $bid_number_result = mysqli_query($connection, $bids_number_query);
+      $bid_number_row = mysqli_fetch_row($bid_number_result);
+      $num_bids = $bid_number_row[0];
+    } else {
+        $num_bids = 0;
+    }
+
     $item_id = $infos[0];
     $title = $infos[1];
     $description = $infos[2];
     $current_price = $infos[8];
-    $num_bids = 1;
+    
     $end_date = new DateTime($infos[6]); // // todo: make it a valid datetime format
+
+
+    
 
     print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
   }
