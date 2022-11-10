@@ -30,10 +30,10 @@
     <label for="password" class="col-sm-2 col-form-label text-right">Password</label>
     <div class="col-sm-10">
       <input type="password" class="form-control"  name="password"  id="passwordRegister" placeholder="Password" oninput="OnInput (event)" >
-      <small class="form-text text-muted"><span class="text-danger">* Required.</span></small> 
+      <small class="form-text text-muted"><span class="text-danger">* Required. (A combination of letters and numbers only, special characters unallowed)</span></small> 
       <div id="passwordHelp" class="form-text text-muted">
-		    <a id="digit_fail"  style="color:red">× 8-20 digits</a>
-		    <a id="digit_pass"  style="color:green">√ 8-20 digits</a><br/>
+		    <a id="digit_fail"  style="color:red">× 8-20 characters</a>
+		    <a id="digit_pass"  style="color:green">√ 8-20 characters</a><br/>
 		    <a id="number_fail" style="color:red">× A number</a>
 		    <a id="number_pass" style="color:green">√ A number</a><br/>
         <a id="upper_fail"  style="color:red">× An upper case letter</a>

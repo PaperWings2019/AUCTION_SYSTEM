@@ -14,7 +14,7 @@ $email_input=$_POST['email'];
 $password_input=$_POST['password'];
 $password_confirmation_input=$_POST['passwordConfirmation'];
 
-$password_pattern='/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{8,20}/';
+$password_pattern='/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{8,20}$/';
 
 $query = "SELECT * FROM user WHERE email='$email_input'";
 $result = mysqli_query($connection,$query);
@@ -31,7 +31,7 @@ if($password_input!=$password_confirmation_input){
     echo "$email_input is NOT a valid email address.";
     header("refresh:3;url=register.php");
 }elseif(!preg_match($password_pattern,$password_input)){
-    echo ('Please make sure that you entered a password with at least 8 characters, including a number, an upper case letter, and a lower case letter');
+    echo ('Please make sure that you entered a password with 8-20 characters with a combination of only letters and numbers, including a number, an upper case letter, and a lower case letter');
     header("refresh:3;url=register.php");
 }
 else{
