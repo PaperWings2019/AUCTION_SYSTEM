@@ -147,7 +147,7 @@
   foreach ($result_fetched as $index => $infos) {
 
     $bids_number_query = "SELECT count(*) FROM `bidhistory` WHERE itemID = $infos[0]";
-    if(true){
+    if(mysqli_query($connection, $sql)){
       $bid_number_result = mysqli_query($connection, $bids_number_query);
       $bid_number_row = mysqli_fetch_row($bid_number_result);
       $num_bids = $bid_number_row[0];
