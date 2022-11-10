@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `auctions` (
   `endDate` varchar(20) DEFAULT NULL,
   `sellerID` int(11) DEFAULT NULL,
   `highestBid` int(11) DEFAULT NULL,
-  `auctionStatus` int(11) DEFAULT NULL,
+  `auctionStatus` varchar(10) DEFAULT NULL,
   `buyerID` int(30) DEFAULT NULL,
   PRIMARY KEY (`itemID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;

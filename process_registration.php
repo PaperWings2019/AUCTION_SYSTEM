@@ -29,6 +29,7 @@ if($password_input!=$password_confirmation_input){
     header("refresh:3;url=browse.php");
 }elseif(!filter_var($email_input, FILTER_VALIDATE_EMAIL)){
     echo "$email_input is NOT a valid email address.";
+    header("refresh:3;url=register.php");
 }elseif(!preg_match($password_pattern,$password_input)){
     echo ('Please make sure that you entered a password with at least 8 characters, including a number, an upper case letter, and a lower case letter');
     header("refresh:3;url=register.php");
