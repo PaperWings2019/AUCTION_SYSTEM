@@ -29,7 +29,8 @@ if (empty($bidInput)){
     // header("refresh:3;url=listing.php?item_id=$item_id");
 }else{
     $SESSION_id = $_SESSION['user_id'];
-    $bidSubmitTime = date_format(new DateTime(), 'Y-m-d H:i:s');
+    $bidSubmitTime = strtotime("now");
+    $bidSubmitTime = date('Y-m-d H:i:s', $bidSubmitTime);
     $update_sql = "UPDATE auctions SET highestBid = $bidInput, buyerID = $SESSION_id where itemID = $item_id";
     $update_result = mysqli_query($connection,$update_sql);
 

@@ -25,12 +25,16 @@
   $sql = "SELECT *
           FROM auctions a
           INNER JOIN(
-            SELECT DISTINCT itemID
+            (SELECT DISTINCT itemID
             FROM bidhistory
-            WHERE buyerID = {$buyerid}
+            WHERE buyerID = {$buyerid})
+            UNION
+            (SELECT DISTINCT itemID
+            FROM watchlist
+            WHERE userID = {$buyerid})
           ) AS t
           ON (t.itemID = a.itemID)";
-          // todo: after status is ready to change, add the constraint where the auction is open
+          // // todo: after status is ready to change, add the constraint where the auction is open
   $r = mysqli_query($connection, $sql);
   $result_fetched = mysqli_fetch_all($r);
   $cat_col = array();
@@ -38,37 +42,19 @@
     $cat_col[$index] = $content[3];
   }
   $sql = "SELECT *
-        FROM auctions
+        FROM (SELECT *
+              FROM auctions
+              WHERE auctionStatus = 1) AS a
         WHERE 0 ";
   foreach ($cat_col as $index => $content) {
-    $sql .= "OR auctions.category = {$content} ";
+    $sql .= "OR (a.category = {$content}) ";
   }
   $result_fetched = mysqli_fetch_all(mysqli_query($connection, $sql));
   // // TODO: Loop through results and print them out as list items.
-  if (!isset($_GET['page'])) {
-    $curr_page = 1;
-  }
-  else {
-    $curr_page = $_GET['page'];
-  }
+
 ?>
 
-<?php
 
-
-    /* TODO: Use above values to construct a query. Use this query to 
-      retrieve data from the database. (If there is no form data entered,
-      decide on appropriate default value/default query to make. */
-    
-    /* For the purposes of pagination, it would also be helpful to know the
-      total number of results that satisfy the above query */
-
-
-    $num_results = 0; // TODO: Calculate me for real
-
-    $results_per_page = 10;
-    $max_page = ceil($num_results / $results_per_page);
-?>
 
 <div class="container mt-5">
 
@@ -101,6 +87,29 @@
     print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
   }
 
+?>
+
+<?php
+
+
+    /* TODO: Use above values to construct a query. Use this query to 
+      retrieve data from the database. (If there is no form data entered,
+      decide on appropriate default value/default query to make. */
+    
+    /* For the purposes of pagination, it would also be helpful to know the
+      total number of results that satisfy the above query */
+
+
+    $num_results = sizeof($result_fetched); // // TODO: Calculate me for real
+
+    $results_per_page = 10;
+    $max_page = ceil($num_results / $results_per_page);
+    if (!isset($_GET['page'])) {
+      $curr_page = 1;
+    }
+    else {
+      $curr_page = $_GET['page'];
+    }
 ?>
 
 </ul>
