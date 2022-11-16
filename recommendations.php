@@ -44,16 +44,11 @@
   }
 
   // TODO: Perform a query to pull up auctions they might be interested in.
-  // pull from bid history
   $buyerid = $_SESSION['user_id'];
   if ($order_by =='Watchlist'){
     $sql = "SELECT *
             FROM auctions a
             INNER JOIN(
-              (SELECT DISTINCT itemID
-              FROM bidhistory
-              WHERE buyerID = {$buyerid})
-              UNION
               (SELECT DISTINCT itemID
               FROM watchlist
               WHERE userID = {$buyerid})
@@ -62,6 +57,11 @@
             // // todo: after status is ready to change, add the constraint where the auction is open
     $r = mysqli_query($connection, $sql);
     $result_fetched = mysqli_fetch_all($r);
+    if (empty($result_fetched)) {
+      echo "Currently, there are no recommendations for you.";
+      $result_fetched = array();
+      return;
+    } 
     $cat_col = array();
     foreach ($result_fetched as $index => $content) {
       $cat_col[$index] = $content[3];
@@ -81,11 +81,11 @@
       $result = mysqli_query($connection,$sql);
       $row_bidding_items = mysqli_fetch_all($result);
       $Bidding_items = $row_bidding_items;
-        if (empty($Bidding_items)) {
-          echo "Currently, there are no recommendations for you.";
-          $result_fetched = array();
-          return;
-        } 
+      if (empty($Bidding_items)) {
+        echo "Currently, there are no recommendations for you.";
+        $result_fetched = array();
+        return;
+      } 
 
       $sql = "SELECT buyerID FROM bidhistory WHERE (itemID = {$Bidding_items[0][0]}";
       foreach ($Bidding_items as $Value){
@@ -126,7 +126,35 @@
       
   }
   else{
-  // TODO: ADD HISTORY  FUCTION 
+    $sql = "SELECT *
+            FROM auctions a
+            INNER JOIN(
+              (SELECT DISTINCT itemID
+              FROM bidhistory
+              WHERE buyerID = {$buyerid})
+            ) AS t
+            ON (t.itemID = a.itemID)";
+            // // todo: after status is ready to change, add the constraint where the auction is open
+    $r = mysqli_query($connection, $sql);
+    $result_fetched = mysqli_fetch_all($r);
+    if (empty($result_fetched)) {
+      echo "Currently, there are no recommendations for you.";
+      $result_fetched = array();
+      return;
+    } 
+    $cat_col = array();
+    foreach ($result_fetched as $index => $content) {
+      $cat_col[$index] = $content[3];
+    }
+    $sql = "SELECT *
+          FROM (SELECT *
+                FROM auctions
+                WHERE auctionStatus = 1) AS a
+          WHERE 0 ";
+    foreach ($cat_col as $index => $content) {
+      $sql .= "OR (a.category = {$content}) ";
+    }
+    $result_fetched = mysqli_fetch_all(mysqli_query($connection, $sql));
   }
   // // TODO: Loop through results and print them out as list items.
 
