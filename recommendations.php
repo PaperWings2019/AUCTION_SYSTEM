@@ -5,7 +5,23 @@
 <div class="container">
 
 <h2 class="my-3">Recommendations for you</h2>
-
+<form method="get" action="recommendations.php"  >
+  <div class="row" style="padding-bottom: 20px;">
+    <div class="col-md-8 pr-0">
+      <div class="form-inline">
+        <label class="mx-2" for="order_by">Sort by:</label>
+        <select class="form-control"  id="order_by" name="order_by">
+          <option value="History">Recommended according to your bidding history</option>
+          <option value="Watchlist">Recommended according to your Watchlist</option>
+          <option selected value="Competitors">Recommended according to your past competitors are currently bidding on</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-1 px-0">
+      <button type="submit" class="btn btn-primary" name="searched" value="true">Search</button>
+    </div>
+  </div>
+</form>
 <?php
   // This page is for showing a buyer recommended items based on their bid 
   // history. It will be pretty similar to browse.php, except there is no 
@@ -67,6 +83,7 @@
       $Bidding_items = $row_bidding_items;
         if (empty($Bidding_items)) {
           echo "Currently, there are no recommendations for you.";
+          $result_fetched = array();
           return;
         } 
 
@@ -77,6 +94,11 @@
       $sql .= " )AND buyerID <> {$buyerid} Group by BuyerID";
       $result = mysqli_query($connection,$sql);
       $Competitors_ID = mysqli_fetch_all($result);
+      if (empty($Competitors_ID)) {
+        echo "Currently, there are no recommendations for you.";
+        $result_fetched = array();
+        return;
+      } 
       $sql = "SELECT itemID FROM bidhistory WHERE BuyerID = {$Competitors_ID[0][0]}";
       foreach ($Competitors_ID as $Value){
         $sql .= " OR BuyerID = $Value[0]";
@@ -87,7 +109,11 @@
 
       $all_item_ID = array_merge($Bidding_items,$Bidding_items_by_Competitors);
       $item_ID_Recommended = array_filter ($all_item_ID, function($v) use ($Bidding_items) {return ! in_array($v,$Bidding_items);});
-
+      if (empty($item_ID_Recommended)) {
+        echo "Currently, there are no recommendations for you.";
+        $result_fetched = array();
+        return;
+      } 
       $sql = "SELECT * FROM auctions WHERE ("; 
       foreach ($item_ID_Recommended as $value){
         $sql .= " itemID = $value[0] OR";
@@ -109,23 +135,7 @@
 
 <!-- Sort column for different type of recommendations -->
 <div class="container mt-5" >
-<form method="get" action="recommendations.php"  >
-  <div class="row" style="padding-bottom: 20px;">
-    <div class="col-md-8 pr-0">
-      <div class="form-inline">
-        <label class="mx-2" for="order_by">Sort by:</label>
-        <select class="form-control"  id="order_by" name="order_by">
-          <option value="History">Recommended according to your bidding history</option>
-          <option value="Watchlist">Recommended according to your Watchlist</option>
-          <option selected value="Competitors">Recommended according to your past competitors are currently bidding on</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-1 px-0">
-      <button type="submit" class="btn btn-primary" name="searched" value="true">Search</button>
-    </div>
-  </div>
-</form>
+
 <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
 <?php 
 ?>
