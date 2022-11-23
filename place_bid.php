@@ -8,6 +8,7 @@ session_start();
 
 // TODO: Extract $_POST variables, check they're OK, and attempt to make a bid.
 // Notify user of success/failure and redirect/give navigation options.
+
 $item_id = $_POST['item_id']; //itemID is not null
 
 if ($_SESSION['logged_in']==false || $_SESSION['account_type'] != 'buyer'){            
@@ -32,14 +33,22 @@ if (empty($bidInput)){
     echo ("You can not enter a bid price that less than the current highest bid price");
     // header("refresh:3;url=listing.php?item_id=$item_id");
 }else{
-    $SESSION_id = $_SESSION['user_id'];
-    $bidSubmitTime = strtotime("now");
-    $bidSubmitTime = date('Y-m-d H:i:s', $bidSubmitTime);
-
-    // email to inform previous bidder about outbid
     $get_item_info_query_pre = "SELECT * FROM auctions WHERE itemID=$item_id";
     $item_result = mysqli_query($connection, $get_item_info_query_pre);
     $item_info_pre = mysqli_fetch_array($item_result);
+
+    $SESSION_id = $_SESSION['user_id'];
+    $bidSubmitTime = strtotime("now");
+    $close_date = strtotime($item_info_pre[6]);
+    if ($close_date < $bidSubmitTime) {
+        echo "Sorry, the auction has been closed! Your bid is not successful";
+        header("refresh:3;url=listing.php?item_id=$item_id");
+        return;
+    }
+    $bidSubmitTime = date('Y-m-d H:i:s', $bidSubmitTime);
+
+    // email to inform previous bidder about outbid
+
     $prev_buyer = $item_info_pre[10];
     $prev_bid = $item_info_pre[8];
     //check if there is previous buyer

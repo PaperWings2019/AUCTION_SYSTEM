@@ -11,6 +11,10 @@ table, th, td{
 
 <?php
   // Get info from the URL:
+  if (!isset($_GET['item_id'])) {
+    header("refresh:0;url=browse.php");
+    return;
+  }
   $item_id = $_GET['item_id'];
   $account_type = $_SESSION['account_type'];
 

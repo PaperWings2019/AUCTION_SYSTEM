@@ -40,7 +40,7 @@ function sendmail($recipient, $subject, $content){
     if ( $mail->send() ) {
 		echo "Email Sent..!";
 	}else{
-		echo "Message could not be sent. Mailer Error: "{$mail->ErrorInfo};
+		echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 	}
 	$mail->smtpClose();
 }

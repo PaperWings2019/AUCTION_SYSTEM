@@ -53,6 +53,11 @@
     
     if(isset($_POST['auctionEndDate'])){
         $end_date = strtotime($_POST['auctionEndDate']);
+        if ($end_date < strtotime("now")) {
+            echo "You should enter a date that is later than now";
+            header("refresh:3;url=create_auction.php");
+            return;
+        }
         $end_date = date('Y-m-d H:i:s', $end_date);   
     }
      
