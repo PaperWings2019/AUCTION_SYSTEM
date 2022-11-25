@@ -34,7 +34,7 @@ if (mysqli_query($connection, $query)){
     }
 
     $infos = mysqli_fetch_row($result);
-    
+    var_dump($infos);
 
     $bids_number_query = "SELECT count(*) FROM `bidhistory` WHERE itemID = $item[0]";
     if(mysqli_query($connection, $new_query)){
@@ -45,11 +45,11 @@ if (mysqli_query($connection, $query)){
         $num_bids = 0;
     }
 
-    $item_id = $infos[0];
-    $title = $infos[1];
-    $description = $infos[2];
-    $current_price = $infos[8];
-    $end_date = new DateTime($infos[6]); 
+    $item_id = $infos[0] ?? null;
+    $title = $infos[1] ?? null;
+    $description = $infos[2] ?? null;
+    $current_price = $infos[8] ?? null;
+    $end_date = new DateTime($infos[6] ?? null); 
 
     print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
   }

@@ -17,6 +17,7 @@ table, th, td{
   }
   $item_id = $_GET['item_id'];
   $account_type = $_SESSION['account_type'];
+  $user_id = $_SESSION['user_id'];
 
   // TODO(Done): Use item_id to make a query to the database.
 
@@ -75,6 +76,18 @@ table, th, td{
 <?php endif /* Print nothing otherwise */ ?>
   </div>
 </div>
+
+<<<<<<< Updated upstream
+
+=======
+<?
+  $add_watchlist = $_POST['watch_watching'];
+  $sql_add_to_watchlist = "INSERT INTO `watchlist`(`watchlistID`, `itemID`, `userID`) VALUES (1,$item_id,$user_id)";
+  $result_add_to_watchlist = mysqli_query($connection,$sql_add_to_watchlist);
+  var_dump($result_add_to_watchlist);
+
+?>
+>>>>>>> Stashed changes
 
 <div class="row"> <!-- Row #2 with auction description + bidding info -->
   <div class="col-sm-8"> <!-- Left col with item info -->

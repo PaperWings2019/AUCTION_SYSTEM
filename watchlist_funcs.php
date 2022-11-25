@@ -1,7 +1,10 @@
  <?php
  
 include_once('database.php');
-session_start();
+<<<<<<< Updated upstream
+//session_start();
+=======
+>>>>>>> Stashed changes
 
 if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
   return;
@@ -9,9 +12,16 @@ if (!isset($_POST['functionname']) || !isset($_POST['arguments'])) {
 
 // Extract arguments from the POST variables:
 $item_id = $_POST['arguments'];
+echo $item_id;
+$userID = $_SESSION["user_id"];
+echo $userID;
 
 if ($_POST['functionname'] == "add_to_watchlist") {
   // TODO: Update database and return success/failure.
+
+
+  $sql_add_to_watchlist = "INSERT INTO `watchlist`(`watchlistID`, `itemID`, `userID`) VALUES (1,$item_id, $userID)";
+  $result = mysqli_query($connection,$sql_add_to_watchlist);
 
   $res = "success";
 }
