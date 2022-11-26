@@ -72,7 +72,7 @@
                 WHERE auctionStatus = 1) AS a
           WHERE 0 ";
     foreach ($cat_col as $index => $content) {
-      $sql .= "OR (a.category = {$content}) ";
+      $sql .= "OR (a.category = '$content') ";
     }
     $result_fetched = mysqli_fetch_all(mysqli_query($connection, $sql));
   } 
@@ -152,7 +152,7 @@
                 WHERE auctionStatus = 1) AS a
           WHERE 0 ";
     foreach ($cat_col as $index => $content) {
-      $sql .= "OR (a.category = {$content}) ";
+      $sql .= "OR (a.category = '$content') ";
     }
     $result_fetched = mysqli_fetch_all(mysqli_query($connection, $sql));
   }
@@ -191,7 +191,7 @@
     
     $end_date = new DateTime($infos[6]); // // todo: make it a valid datetime format
 
-    image = $infos[11];
+    $image = $infos[11];
     print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
   }
 

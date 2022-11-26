@@ -60,7 +60,7 @@ table, th, td{
 
 <div class="row m-5 " >
   <div class ="col-sm-3 m-3 " >
-    <img  class = "border rounded" src="data:image/jpg;charset=utf8;base64,<?php echo $image ?>" width="500" height="500"/>
+    <img  class = "border rounded" src="data:image/jpg;charset=utf8;base64,<?php echo $image ?>" width="100%"/>
   </div>
   <div class ="col-sm ml-5 mr-5">
 
