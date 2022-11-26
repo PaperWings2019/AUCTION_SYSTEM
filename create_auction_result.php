@@ -26,12 +26,20 @@
     
 
     if(isset($_POST['auctionTitle'])){
-        $auction_title = $_POST['auctionTitle'];    
+        $auction_title = addslashes($_POST['auctionTitle']);
+        if (strlen($auction_title) > 100){
+            echo '<script>alert("Auction title must not exceed 100 characters!")</script>';
+            echo '<script>window.history.go(-1)</script>';
+        }   
      }
 
     
      if(isset($_POST['auctionDetails'])){
-        $auction_details = $_POST['auctionDetails'];
+        $auction_details = addslashes($_POST['auctionDetails']);
+        if (strlen($auction_details) > 3000){
+            echo '<script>alert("Auction description must not exceed 3000 characters!")</script>';
+            echo '<script>window.history.go(-1)</script>';
+        }
      }
         
     if(isset($_POST['auctionCategory'])){
@@ -40,6 +48,7 @@
     
     if(isset($_POST['auctionStartPrice'])){
         $start_price = $_POST['auctionStartPrice'];
+        
     }
     
 
@@ -47,19 +56,58 @@
      
     if (!$_POST['auctionReservePrice'] == null){
         $reserve_price = $_POST['auctionReservePrice'];
-    } else {
-        $reserve_price = 2147483647;
-    }
+        if ($reserve_price < $start_price){
+            echo '<script>alert("Reserve price must be higher than the start price! ")</script>';
+            echo '<script>window.history.go(-1)</script>';
+        }
+    } 
+
     
     if(isset($_POST['auctionEndDate'])){
         $end_date = strtotime($_POST['auctionEndDate']);
         if ($end_date < strtotime("now")) {
-            echo "You should enter a date that is later than now";
-            header("refresh:3;url=create_auction.php");
+            echo '<script>alert("You should enter a time that is later than the current time!")</script>';
+            echo '<script>window.history.go(-1)</script>';
+            
+            
             return;
         }
         $end_date = date('Y-m-d H:i:s', $end_date);   
     }
+
+    // var_dump($_POST);
+    // var_dump($_FILES);
+    // if(isset($_POST['image'])){ 
+        
+        
+        if(!empty($_FILES["image"]["name"])) { 
+            // Get file info 
+            $fileName = basename($_FILES["image"]["name"]); 
+            $fileType = pathinfo($fileName, PATHINFO_EXTENSION); 
+            
+            
+            // Allow certain file formats 
+            $allowTypes = array('jpg','png','jpeg','gif'); 
+            if(in_array($fileType, $allowTypes)){ 
+                $image = $_FILES['image']['tmp_name']; 
+                $imgContent = base64_encode(file_get_contents($image)); 
+                           
+                
+            }else{ 
+                echo '<script>alert("Sorry, only JPG, JPEG, PNG, & GIF files are allowed to upload.")</script>';
+                echo '<script>window.history.go(-1)</script>';
+            }
+        
+        }else{ 
+            echo '<script>alert("Please select an image file to upload.")</script>';
+            echo '<script>window.history.go(-1)</script>';
+        }
+    // } else {
+    //     // echo '<script>alert("Please select an image file to upload!")</script>';
+    //     // echo '<script>window.history.go(-1)</script>';
+
+    // }
+ 
      
 
 
@@ -71,11 +119,17 @@
             data into the database. */
     
     
-    $query = "INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`, `buyerID`) 
-    VALUES (NULL, '$auction_title', '$auction_details', '$auction_category', '$start_price', '$reserve_price', '$end_date', '$seller_id', '$start_price', 1, NULL);";
+    $query = "INSERT INTO `auctions` (`itemID`, `itemName`, `itemDescription`, `category`, `startingPrice`, `reservePrice`, `endDate`, `sellerID`, `highestBid`, `auctionStatus`, `buyerID`, `image`) 
+    VALUES (NULL, '$auction_title', '$auction_details', '$auction_category', '$start_price', '$reserve_price', '$end_date', '$seller_id', '$start_price', 1, NULL, '$imgContent');";
     
     if(!mysqli_query($connection,$query)){
-        die('Error: ' . mysqli_error($connection));
+        $a = "hi";
+    
+        echo '<script>alert("'.mysqli_error($connection).'")</script>';
+        // die('Error: ' . mysqli_error($connection));
+        echo '<script>window.history.go(-1)</script>';
+        
+
     }
     
 

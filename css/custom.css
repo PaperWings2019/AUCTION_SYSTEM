@@ -1,34 +1,54 @@
 /* Any custom CSS you would like to specify for your site can go here. */
 
 table {
-    border-collapse: collapse;
-  }
-
+  border-collapse: collapse;
+}
 
 .errorMessage {
-    background-color: pink;
-    width: 240px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-left: 107px;
-    visibility: hidden;
-    border-radius: 10px;
-    position: relative;
-    float: left;
-  }
+  background-color: pink;
+  width: 240px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 107px;
+  visibility: hidden;
+  border-radius: 10px;
+  position: relative;
+  float: left;
+}
 .errorMessage.top-arrow:after {
-    color: pink;
-    content: " ";
-    position: absolute;
-    right: 90px;
-    top: -15px;
-    border-top: none;
-    border-right: 10px solid transparent;
-    border-left: 10px solid transparent;
-    border-bottom: 15px solid pink;
-  }
+  color: pink;
+  content: " ";
+  position: absolute;
+  right: 90px;
+  top: -15px;
+  border-top: none;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 15px solid pink;
+}
 
+.product-details {
+  width: 100%;
+  padding: 60px 10vw;
+  display: flex;
+  justify-content: space-between;
+  border-width: 5;
+  border-color: "red";
+}
 
-  
+.product-images {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  background: #fff;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: 100px;
+  grid-gap: 10px;
+  padding: 10px;
+}

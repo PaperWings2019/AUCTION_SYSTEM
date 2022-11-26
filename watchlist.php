@@ -51,7 +51,8 @@ if (mysqli_query($connection, $query)){
     $current_price = $infos[8] ?? null;
     $end_date = new DateTime($infos[6] ?? null); 
 
-    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+    $image = $infos[11];
+    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
   }
 
 ?>

@@ -132,6 +132,8 @@
     // var_dump($num_results);
     $results_per_page = 10;
     $max_page = ceil($num_results / $results_per_page);
+
+    // echo '<script>alert("'.$max_page.'")</script>';
 ?>
 
 <div class="container mt-5">
@@ -159,13 +161,14 @@
     $title = $infos[1];
     $description = $infos[2];
     $current_price = $infos[8];
+    $image = $infos[11];
     
     $end_date = new DateTime($infos[6]); // // todo: make it a valid datetime format
 
 
     
 
-    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
   }
 
 ?>
@@ -194,6 +197,7 @@
   if ($curr_page != 1) {
     echo('
     <li class="page-item">
+      
       <a class="page-link" href="browse.php?' . $querystring . 'page=' . ($curr_page - 1) . '" aria-label="Previous">
         <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
         <span class="sr-only">Previous</span>

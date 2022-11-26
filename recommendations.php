@@ -191,7 +191,8 @@
     
     $end_date = new DateTime($infos[6]); // // todo: make it a valid datetime format
 
-    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
+    image = $infos[11];
+    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
   }
 
 ?>

@@ -49,7 +49,7 @@
       before they try to send it, but that kind of functionality should be
       extremely low-priority / only done after all database functions are
       complete. -->
-      <form name="auctionForm" method="POST" action="create_auction_result.php" onsubmit = "return validateForm()">
+      <form name="auctionForm" method="POST" action="create_auction_result.php" onsubmit = "return validateForm()" enctype="multipart/form-data">
         <div class="form-group row">
           <label for="auctionTitle" class="col-sm-2 col-form-label text-right">Title of auction</label>
           <div class="col-sm-10">
@@ -70,13 +70,13 @@
           <div class="col-sm-10">
             <select name="auctionCategory" class="form-control" id="auctionCategory">
               <option selected>Choose...</option>
-              <option value="1">Art</option>
-              <option value="2">Book</option>
-              <option value="3">Clothes</option>
-              <option value="4">Electronics</option>
-              <option value="5">Music & DVDs</option>
-              <option value="6">Toys and Games</option>
-              <option value="7">Others</option>
+              <option value="Art">Art</option>
+              <option value="Book">Book</option>
+              <option value="Clothes">Clothes</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Music & DVDs">Music & DVDs</option>
+              <option value="Toys and Games">Toys and Games</option>
+              <option value="Others">Others</option>
             </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
             <p class = "errorMessage top-arrow" > </p>
@@ -118,7 +118,20 @@
             <p class = "errorMessage top-arrow" > </p>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary form-control">Create Auction</button>
+
+        <div class="form-group row">
+          <label for="uploadImage" class="col-sm-2 col-form-label text-right">Upload Image</label>
+          <div class="col-sm-10">
+            <input type="file" name="image" id="uploadImage">
+            <small id="uploadImage" class="form-text text-muted"> <span class="text-danger">* Required.</span> Allowed file types: jpg, png, jpeg</small>
+            <p class = "errorMessage top-arrow" > </p>
+          </div>
+        </div>
+
+        
+
+        <button type="submit" class="btn btn-primary form-control" value="Upload">Create Auction</button>
+        
       </form>
     </div>
   </div>
@@ -134,6 +147,7 @@
     var nameVal_3 = document.forms["auctionForm"]["auctionStartPrice"].value;
     var nameVal_4 = document.forms["auctionForm"]["auctionReservePrice"].value;
     var nameVal_5 = document.forms["auctionForm"]["auctionEndDate"].value;
+    var nameVal_6 = document.forms["auctionForm"]["uploadImage"].value;
 
 
 
@@ -160,6 +174,11 @@
     removeError(4)
     document.getElementsByClassName( "errorMessage" )[4].style.visibility = "visible";
     document.getElementsByClassName( "errorMessage" )[4].innerHTML = "The reserve price must be higher than the starting price!";
+    return false;
+  }else if (nameVal_5 == null || nameVal_5 == ""){
+    removeError(5)
+    document.getElementsByClassName( "errorMessage" )[5].style.visibility = "visible";
+    document.getElementsByClassName( "errorMessage" )[5].innerHTML = "Please Fill in the End date!";
     return false;
   }else if (nameVal_5 == null || nameVal_5 == ""){
     removeError(5)
