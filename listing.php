@@ -50,9 +50,20 @@ table, th, td{
   
   // TODO: If the user has a session, use it to make a query to the database
   //       to determine if the user is already watching this item.
-  //       For now, this is hardcoded.
-  $has_session = true;
-  $watching = false;
+  if($_SESSION){
+    $has_session = true;
+  }else{
+    $has_session = false;
+  }
+
+  $query_check_watchlist = "SELECT * FROM `watchlist` WHERE `userID`=$user_id and `itemID` = $item_id";
+  $result_check_watchlist = mysqli_query($connection,$query_check_watchlist);
+  $row_check_watchlist = mysqli_fetch_array($result_check_watchlist);
+  if(is_null($row_check_watchlist)){
+    $watching = false;
+  }else{
+  $watching = true;
+  }
 ?>
 
 
