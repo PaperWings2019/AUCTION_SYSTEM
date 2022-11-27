@@ -55,10 +55,12 @@ table, th, td{
   }else{
     $has_session = false;
   }
-
-  $query_check_watchlist = "SELECT * FROM `watchlist` WHERE `userID`=$user_id and `itemID` = $item_id";
-  $result_check_watchlist = mysqli_query($connection,$query_check_watchlist);
-  $row_check_watchlist = mysqli_fetch_array($result_check_watchlist);
+  $row_check_watchlist = array();
+  if($_SESSION['logged_in']) {
+    $query_check_watchlist = "SELECT * FROM `watchlist` WHERE `userID`=$user_id and `itemID` = $item_id";
+    $result_check_watchlist = mysqli_query($connection,$query_check_watchlist);
+    $row_check_watchlist = mysqli_fetch_array($result_check_watchlist);
+  }
   if(is_null($row_check_watchlist)){
     $watching = false;
   }else{
