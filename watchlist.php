@@ -34,7 +34,7 @@ if (mysqli_query($connection, $query)){
     }
 
     $infos = mysqli_fetch_row($result);
-    var_dump($infos);
+    // var_dump($infos);
 
     $bids_number_query = "SELECT count(*) FROM `bidhistory` WHERE itemID = $item[0]";
     if(mysqli_query($connection, $new_query)){
