@@ -166,9 +166,18 @@
     $end_date = new DateTime($infos[6]); // // todo: make it a valid datetime format
 
 
+    $seller_id = $infos[7];
+    $get_seller_rating = "SELECT AVG(rating) FROM `ratings` r, `auctions` a WHERE r.itemID = a.itemID AND a.sellerID = $seller_id;";
+    if(mysqli_query($connection, $get_seller_rating)){
+      $rating_result = mysqli_query($connection, $get_seller_rating);
+      $ratings = mysqli_fetch_row($rating_result);
+      $rating = $ratings[0];
+    } else {
+        $rating = false;
+    }
     
 
-    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image);
+    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image, $rating);
   }
 
 ?>
@@ -240,6 +249,11 @@
 
 </div>
 
+<style>
+    .prevIcon {
+      color: #09f;
+    }
+</style>
 
 
 <?php include_once("footer.php")?>

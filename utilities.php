@@ -69,8 +69,13 @@ function display_time_remaining($interval) {
 
 // print_listing_li:
 // This function prints an HTML <li> element containing an auction listing
-function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image)
+function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image, $rating)
 {
+  
+  
+$rating = floatval($rating);
+$rounded_rating = round($rating, 1);
+$rating = ceil($rating);
   // Truncate long descriptions
   if (strlen($desc) > 250) {
     $desc_shortened = substr($desc, 0, 250) . '...';
@@ -104,9 +109,193 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time,
     <li class="list-group-item d-flex justify-content-between">
     <img src="data:image/jpg;charset=utf8;base64,'.$image.'" width="300" height="300"/>
     <div class="p-2 mr-5"><h5><a href="listing.php?item_id=' . $item_id . '">' . $title . '</a></h5>' . $desc_shortened . '</div>
-    <div class="text-center text-nowrap"><span style="font-size: 1.5em">£' . number_format($price, 2) . '</span><br/>' . $num_bids . $bid . '<br/>' . $time_remaining . '</div>
+    <div class="text-center text-nowrap"><span style="font-size: 1.5em">£' . number_format($price, 2) . '</span><br/>' . $num_bids . $bid . '<br/>' . $time_remaining . '<br/><br/>');
+    
+  if ($rating){
+    
+    echo('Seller rating: <br/>');
+    if($rating=="1"){
+      echo('<span class="prevIcon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span> 
+    <span class="icon">★</span>
+    <span class="icon">★</span> ');
+    } else if($rating=="2"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="icon">★</span> 
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+     ');
+    }else if($rating=="3"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span> ');
+    }else if($rating=="4"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+     <span class="prevIcon">★</span>
+    <span class="icon">★</span> ');
+    }else if($rating=="5"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>  ');
+    }
+    
+  } else {
+    echo('This seller has no ratings');
+  }
+    
+  
+    
+    
+  echo(
+    '</br>'.$rounded_rating.'
+  </div>
   </li>'
+  
   );
 }
+
+function print_listing_ratings($item_id, $title, $desc, $price, $num_bids, $end_time, $image, $buyerID, $prev_rating)
+{
+  // Truncate long descriptions
+  if (strlen($desc) > 250) {
+    $desc_shortened = substr($desc, 0, 250) . '...';
+  }
+  else {
+    $desc_shortened = $desc;
+  }
+  
+  // Fix language of bid vs. bids
+  if ($num_bids == 1) {
+    $bid = ' bid';
+  }
+  else {
+    $bid = ' bids';
+  }
+  
+  // Calculate time to auction end
+  $now = new DateTime();
+  if ($now > $end_time) {
+    $time_remaining = 'This auction has ended';
+  }
+  else {
+    // Get interval:
+    $time_to_end = date_diff($now, $end_time);
+    $time_remaining = display_time_remaining($time_to_end) . ' remaining';
+  }
+  
+  
+  // Print HTML
+  echo('
+
+    
+    <li class="list-group-item d-flex justify-content-between">
+    <img src="data:image/jpg;charset=utf8;base64,'.$image.'" width="300" height="300"/>
+    <div class="p-2 mr-5"><h5><a href="listing.php?item_id=' . $item_id . '">' . $title . '</a></h5> 
+    <h5> Rate the item and seller: </h5>
+    <form name ="rating" id="myForm" class="rating" method="POST" action="submitRating.php">
+    <div>
+  <label>
+    <input type="radio" name="stars" value="1" onchange="this.form.submit()"/>
+    <input type="hidden" name="item_id" value="'.$item_id.'"/>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="2" onchange="this.form.submit()"/>
+    <input type="hidden" name="item_id" value="'.$item_id.'"/>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="3" onchange="this.form.submit()"/>
+    <input type="hidden" name="item_id" value="'.$item_id.'"/>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>   
+  </label>
+  <label>
+    <input type="radio" name="stars" value="4" onchange="this.form.submit()"/>
+    <input type="hidden" name="item_id" value="'.$item_id.'"/>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="5" onchange="this.form.submit()"/>
+    <input type="hidden" name="item_id" value="'.$item_id.'"/>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  
+
+  </div>
+  
+  
+  </form>');
+  
+  if ($prev_rating){
+    
+    echo('<h5> Your previous rating: </h5>');
+    if($prev_rating=="1"){
+      echo('<span class="prevIcon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span> 
+    <span class="icon">★</span>
+    <span class="icon">★</span> ');
+    } else if($prev_rating=="2"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="icon">★</span> 
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+     ');
+    }else if($prev_rating=="3"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span> ');
+    }else if($prev_rating=="4"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+     <span class="prevIcon">★</span>
+    <span class="icon">★</span> ');
+    }else if($prev_rating=="5"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>  ');
+    }
+    
+  } else {
+    echo('<h5> No previous rating for this item </h5>');
+  }
+ 
+    
+    echo('</div>
+
+    <div class="text-center text-nowrap"><span style="font-size: 1.5em">£' . number_format($price, 2) . '</span><br/>' . $num_bids . $bid . '<br/>' . $time_remaining . '</div>
+  </li>
+    
+    '
+
+  
+  );
+}
+
+
 
 ?>

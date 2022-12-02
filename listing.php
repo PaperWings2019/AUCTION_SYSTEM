@@ -34,6 +34,20 @@ table, th, td{
   $num_bids = 1;//TODO
   $end_time = new DateTime($row[6]);
   $image = $row[11];
+  
+  $seller_id = $row[7];
+    $get_seller_rating = "SELECT AVG(rating) FROM `ratings` r, `auctions` a WHERE r.itemID = a.itemID AND a.sellerID = $seller_id;";
+    if(mysqli_query($connection, $get_seller_rating)){
+      $rating_result = mysqli_query($connection, $get_seller_rating);
+      $ratings = mysqli_fetch_row($rating_result);
+      $rating = $ratings[0];
+    } else {
+        $rating = false;
+    }
+    
+    $rating = floatval($rating);
+$rounded_rating = round($rating, 1);
+$rating = ceil($rating);
     
 
   // TODO(Done): Note: Auctions that have ended may pull a different set of data,
@@ -121,7 +135,7 @@ table, th, td{
 
       <p>
   <?php if ($now > $end_time): ?>
-      This auction ended on <?php echo(date_format($end_time, 'j M H:i')) ?>
+      <strong>This auction ended on <?php echo(date_format($end_time, 'j M H:i')) ?> </strong>
       <!-- TODO(Done): Print the result of the auction here? -->
       <div>
         <?php if ($row[5]>$row[8]):
@@ -157,9 +171,55 @@ table, th, td{
       <?php endif ?>
   <?php endif ?>
 
+  <?php    
+  if ($rating){
+    
+    echo('<br/><h5>Seller rating: '.$rounded_rating.'</h5>');
+    if($rating=="1"){
+      echo('<span class="prevIcon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span> 
+    <span class="icon">★</span>
+    <span class="icon">★</span> ');
+    } else if($rating=="2"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="icon">★</span> 
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+     ');
+    }else if($rating=="3"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span> ');
+    }else if($rating=="4"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+     <span class="prevIcon">★</span>
+    <span class="icon">★</span> ');
+    }else if($rating=="5"){
+      echo('<span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>
+    <span class="prevIcon">★</span>  ');
+    }
+    
+  } else {
+    echo('This seller has no ratings');
+  }
+    
+  
+  
+  ?>
+
     <?php
         $query = "SELECT buyerID, bidPrice, bidTime FROM `bidHistory` WHERE itemid = $item_id ORDER BY bidID DESC";
         $result_1 = mysqli_query($connection, $query);
+
       ?>
         
     <table class="table table-striped mt-5">
@@ -175,6 +235,7 @@ table, th, td{
             <th> <?php echo $row[2] ?> </th>
           </tr>
         <?php endwhile; ?>
+
         
       </table>  
     
@@ -206,7 +267,18 @@ table, th, td{
 
 
 <?php include_once("footer.php")?>
+<style>
 
+   .icon {
+      
+      font-size: 50px;
+    }
+
+    .prevIcon {
+      color: #09f;
+      font-size: 50px;
+    }
+</style>
 
 <script> 
 // JavaScript functions: addToWatchlist and removeFromWatchlist.

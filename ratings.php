@@ -4,7 +4,9 @@
 
 <div class="container">
 
-<h2 class="my-3">My bids</h2>
+<h2 class="my-3">My ratings</h2>
+<p class="my-3">Rate your past purchases here</p>
+
 
 <?php
   // This page is for showing a user the auctions they've bid on.
@@ -26,12 +28,11 @@
   }
   
   
-  // TODO: Perform a query to pull up the auctions they've bidded on.
+  // TODO: Perform a query to pull up the auctions they've won.
 
   $query = " SELECT itemID 
-  FROM `bidhistory` 
-  WHERE buyerID = $buyer_id
-  GROUP BY itemID ";
+  FROM `auctions` 
+  WHERE buyerID = $buyer_id ";
 
   if (mysqli_query($connection, $query)){
     $item_id_results = mysqli_query($connection, $query);
@@ -51,6 +52,7 @@
   
 
   foreach ($result_fetched as $index => $item) {
+    
     $new_query = "SELECT * FROM `auctions` WHERE itemID = $item[0]";
     if(mysqli_query($connection, $new_query)){
       $result = mysqli_query($connection, $new_query);
@@ -79,18 +81,29 @@
     $image = $infos[11];
 
 
-     $seller_id = $infos[7];
-    $get_seller_rating = "SELECT AVG(rating) FROM `ratings` r, `auctions` a WHERE r.itemID = a.itemID AND a.sellerID = $seller_id;";
-    if(mysqli_query($connection, $get_seller_rating)){
-      $rating_result = mysqli_query($connection, $get_seller_rating);
-      $ratings = mysqli_fetch_row($rating_result);
-      $rating = $ratings[0];
-    } else {
-        $rating = false;
-    }
-    
 
-    print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image, $rating);
+    $get_rating = "SELECT * FROM `ratings` r, `auctions` a WHERE r.itemID = $item_id AND a.buyerID = $buyer_id";
+    if(mysqli_query($connection, $get_rating)){
+      $rating_result = mysqli_query($connection, $get_rating);
+    //   echo("sql success");
+    }
+    // } else {
+    //   die('Error: ' . mysqli_error($connection));
+    // }
+    $rating = mysqli_fetch_row($rating_result);
+    if ($rating){
+       
+        $rating_number = $rating[2];
+        // echo("rating found");
+
+    } else {
+        // echo("rating not found");
+        $rating_number = false;
+    }
+
+
+
+    print_listing_ratings($item_id, $title, $description, $current_price, $num_bids, $end_date, $image, $buyer_id, $rating_number);
   }
 
 ?>
@@ -167,12 +180,86 @@
 
 
 </div>
+
 <style>
-    .prevIcon {
-      color: #09f;
-    }
-</style>
+          .rating {
+        display: inline-block;
+        position: relative;
+        height: 50px;
+        line-height: 50px;
+        font-size: 50px;
+      }
 
+      .rating label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        cursor: pointer;
+      }
 
+      .rating label:last-child {
+        position: static;
+      }
+
+      .rating label:nth-child(1) {
+        z-index: 5;
+      }
+
+      .rating label:nth-child(2) {
+        z-index: 4;
+      }
+
+      .rating label:nth-child(3) {
+        z-index: 3;
+      }
+
+      .rating label:nth-child(4) {
+        z-index: 2;
+      }
+
+      .rating label:nth-child(5) {
+        z-index: 1;
+      }
+
+      .rating label input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+
+      .rating label .icon {
+        float: left;
+        color: transparent;
+      }
+
+      .rating label:last-child .icon {
+        color: #000;
+      }
+
+      .rating:not(:hover) label input:checked ~ .icon,
+      .rating:hover label:hover input ~ .icon {
+        color: #09f;
+      }
+
+      .rating label input:focus:not(:checked) ~ .icon:last-child {
+        color: #000;
+        text-shadow: 0 0 5px #09f;
+      }
+
+      .prevIcon {
+        color: #09f;
+      }
+    </stlye>
+
+<script>
+    console.log("hi");
+    $(":radio").change(function() {
+    this.form.submit();
+    console.log(this.value);
+
+    });
+</script>
 
 <?php include_once("footer.php")?>
