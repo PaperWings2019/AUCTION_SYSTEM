@@ -28,7 +28,7 @@ if($email_input==null){
     $result = mysqli_query($connection,$query);
     $row = mysqli_fetch_array($result);
 
-    if($row){                       //?????????????????????????????????
+    if($row){                       
         echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
 
         //Session setup for successful login
@@ -49,6 +49,6 @@ if($email_input==null){
 
 
 // Redirect to index after 5 seconds
-header("refresh:0.3;url=index.php");
+header("refresh:3;url=index.php");
 
 ?>

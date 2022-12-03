@@ -1,4 +1,4 @@
-<?php include_once("header.php")?>
+<?php include_once("header.php"); ?>
 
 <div class="container">
 <h2 class="my-3">Register new account</h2>
@@ -22,7 +22,7 @@
   <div class="form-group row">
     <label for="email" class="col-sm-2 col-form-label text-right">Email</label>
 	<div class="col-sm-10">
-      <input type="text" class="form-control" name="email"  id="emailRegister" placeholder="Email">
+      <input type="email" class="form-control" name="email"  id="emailRegister" placeholder="Email">
       <small id="emailHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
 	</div>
   </div>
@@ -51,8 +51,19 @@
     </div>
   </div>
   <div class="form-group row">
-    <button type="submit" class="btn btn-primary form-control">Register</button>
+    <label for="verification" class="col-sm-2 col-form-label text-right">Verification code</label>
+	<div class="col-sm-3">
+      <input type="text" class="form-control" name="verification"  id="verification" placeholder="Enter the verification code" style="width:90%; display:inline; " onchange="codeCheck()"><b id="hiddenMsg"></b>
+      <small id="verificationHelp" class="required form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+	<div class="col-sm-2">
+		<button type="button" class="btn btn-primary form-control" onclick="sendEmail()">Send to email</button>
+	</div>
   </div>
+  <div class="form-group row">
+    <button id="submit" type="submit" class="btn btn-primary form-control">Register</button>
+  </div>
+  
 </form>
 
 <div class="text-center">Already have an account? <a href="" data-toggle="modal" data-target="#loginModal">Login</a>
@@ -64,7 +75,8 @@
 
 <script type="text/javascript">
 
-  
+var verifyCode;
+
 $(document).ready(function() {	
 	$("#passwordHelp").hide();
 	$(document).click(function(){ 
@@ -150,6 +162,59 @@ function OnInput (event) {
 		}
 
 	});
+}
+
+function sendEmail() {
+
+	if(document.getElementById("emailRegister").value){
+		reg_email = document.getElementById("emailRegister").value;
+		
+		$.ajax('mailValidate.php', {
+    	type: "POST",
+    	data: {arguments: [reg_email]},
+   		success: 
+        function (obj, textstatus) {
+			console.log("Success");
+			var objT = obj.trim();
+			
+			if (objT == "Senderror") {
+				alert("Mail service error, please try later.");
+			}
+			else if (objT == "Mailerror") {
+				alert("Incorrect mail address");
+			}else{
+				verifyCode = objT.substr(-4);
+				alert("Mail successfully sent");
+				//alert(verifyCode);
+			}
+		},
+    	error:
+     	function (obj, textstatus) {
+        	console.log("Error");
+      	}
+  		}); 
+	}else{
+		alert("Please input a validate email address");
+	}
+}
+
+
+function codeCheck(){
+	if(document.getElementById("verification").value == ''){
+		document.getElementById("hiddenMsg").innerHTML = '';
+	}
+	else if(document.getElementById("verification").value == verifyCode){
+		document.getElementById("emailRegister").disabled="true";
+		document.getElementById("hiddenMsg").style.color = 'green';
+		document.getElementById("hiddenMsg").innerHTML = '&ensp;√';
+		document.getElementById("submit").disabled="";
+	}else{
+		document.getElementById("hiddenMsg").style.color = 'red';
+		document.getElementById("hiddenMsg").innerHTML = '&ensp;×';
+		document.getElementById("emailRegister").disabled="";
+		document.getElementById("submit").disabled="true";
+	}
+
 }
 
 
