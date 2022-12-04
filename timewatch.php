@@ -15,11 +15,25 @@ foreach ($time_check_row as $index => $content) {
     $item_name = $content[1];
     $price = $content[8];
     $buyer = $content[10];
+    $seller = $content[7];
     if ($buyer == NULL) {
+        $sql = "SELECT email
+                FROM user
+                WHERE userID = $seller";
+        $seller_email = mysqli_fetch_all(mysqli_query($connection, $sql))[0][0];
+        // var_dump($seller_email);
+        $content56 = "<h1>OH NO! YOU have not sold the item ".$item_name." because no one have even placed a bid! </h1><br>
+                <p>Highest offered price: ￡".$price."</p>";
+        sendmail($seller_email, "OH NO!", $content56);
+
+        $sql = "UPDATE auctions
+                SET auctions.auctionStatus = -1
+                WHERE itemID = $auction_id";
+        mysqli_query($connection, $sql);
         continue;
     }
     // var_dump($buyer);
-    $seller = $content[7];
+    
     // var_dump($seller);
 
     $sql = "SELECT email

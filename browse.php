@@ -45,16 +45,17 @@
         </select>
       </div>
     </div>
-    <div class="col-md-3 pr-0">
+    <div class="col-md-3 pr-0" >
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control"  id="order_by" name="order_by">
-          <option selected value="pricelow_o">Price (low to high and ongoing)</option>
-          <option value="pricehigh_o">Price (high to low and ongoing)</option>
-          <option value="pricelow">Price (low to high)</option>
-          <option value="pricehigh">Price (high to low)</option>
+          <option selected value="pricelow_o">Price ASC(open)</option>
+          <option value="pricehigh_o">Price DESC(open)</option>
+          <option value="pricelow">Price ASC</option>
+          <option value="pricehigh">Price DESC</option>
           <option value="datelow">Soonest expiry</option>
           <option value="datehigh">Slowest expiry</option>
+          <option value='ratings'>Ratings</option>
         </select>
       </div>
     </div>
@@ -91,7 +92,7 @@
   }
   if (!isset($_GET['order_by'])) {
     // // TODO: Define behavior if an order_by value has not been specified.
-    $order_by = 'pricelow';
+    $order_by = 'pricelow_o';
   }
   else {
     $order_by = $_GET['order_by'];
@@ -115,7 +116,7 @@
             WHERE (a.itemDescription LIKE '%$keyword%'
             OR a.itemName LIKE '%$keyword%') ";
     if ($category != 'all') {
-      $sql .= "AND a.category = '$category'";
+      $sql .= "AND a.category = '$category' ";
     }
     if ($order_by == "pricelow") {
       $sql .= "ORDER BY a.highestBid ASC";
@@ -125,7 +126,23 @@
       $sql .= "ORDER BY a.endDate DESC";
     } elseif ($order_by == 'datelow') {
       $sql .= "ORDER BY a.endDate ASC";
-    } 
+    } elseif ($order_by == 'pricelow_o') {
+      $sql .= 'AND a.auctionStatus = 1 ';
+      $sql .= 'ORDER BY a.highestBId ASC';
+    } elseif ($order_by == 'pricehigh_o') {
+      $sql .= 'AND a.auctionStatus = 1 ';
+      $sql .= 'ORDER BY a.highestBId DESC';
+    } elseif ($order_by == 'ratings') {
+      $sql = "SELECT DISTINCT *
+              FROM auctions a
+              JOIN ratings r ON (a.itemID = r.itemID)
+              WHERE (a.itemDescription LIKE '%$keyword%'
+              OR a.itemName LIKE '%$keyword%') ";
+      if ($category != 'all') {
+        $sql .= "AND a.category = '$category' ";
+      }
+      $sql .= "ORDER BY r.rating DESC";
+    }
     $result = mysqli_query($connection, $sql);
     // var_dump($result);
     $result_fetched = mysqli_fetch_all($result);
@@ -181,7 +198,9 @@
 
     print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $image, $rating);
   }
-
+  if ($num_results == 0) {
+    echo("There is currently no auction satisfying the searching conditions");
+  }
 ?>
 
 </ul>
