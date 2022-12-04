@@ -49,7 +49,9 @@
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control"  id="order_by" name="order_by">
-          <option selected value="pricelow">Price (low to high)</option>
+          <option selected value="pricelow_o">Price (low to high and ongoing)</option>
+          <option value="pricehigh_o">Price (high to low and ongoing)</option>
+          <option value="pricelow">Price (low to high)</option>
           <option value="pricehigh">Price (high to low)</option>
           <option value="datelow">Soonest expiry</option>
           <option value="datehigh">Slowest expiry</option>
