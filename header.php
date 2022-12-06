@@ -46,7 +46,7 @@
   <ul class="navbar-nav ml-auto" >
   <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true){
     echo '<li class="nav-item mx-1">
-      <a class="nav-link">Welcome '.$account_type.' '.$username.', your user id is '.$user_id.' </a>
+      <a class="nav-link">Welcome '.$username.', you are logged in as '.$account_type.'(user id: '.$user_id.') </a>
     </li>';
   }
   ?> 
