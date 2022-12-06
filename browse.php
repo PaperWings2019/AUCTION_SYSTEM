@@ -12,7 +12,7 @@
      (GET method of passing data to a page). -->
 <form method="get" action="browse.php"  >
   <div class="row">
-    <div class="col-md-5 pr-0">
+    <div class="col-md-4 pr-0">
       <div class="form-group">
         <label for="keyword" class="sr-only">Search keyword:</label>
 	    <div class="input-group">
@@ -45,14 +45,14 @@
         </select>
       </div>
     </div>
-    <div class="col-md-3 pr-0" >
+    <div class="col-md-4 pr-0" >
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control"  id="order_by" name="order_by">
-          <option selected value="pricelow_o">Price ASC(open)</option>
-          <option value="pricehigh_o">Price DESC(open)</option>
-          <option value="pricelow">Price ASC</option>
-          <option value="pricehigh">Price DESC</option>
+          <option selected value="pricelow_o">Price low to high(ongoing)</option>
+          <option value="pricehigh_o">Price high to low(ongoing)</option>
+          <option value="pricelow">Price low to high</option>
+          <option value="pricehigh">Price high to low</option>
           <option value="datelow">Soonest expiry</option>
           <option value="datehigh">Slowest expiry</option>
           <option value='ratings'>Ratings</option>
