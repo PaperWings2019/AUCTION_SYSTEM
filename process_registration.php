@@ -11,6 +11,7 @@ include_once('database.php');
 //collect registration information
 $account_type_input=$_POST['accountType'];
 $email_input=$_POST['email'];
+$username_input = $_POST['username'];
 $password_input=$_POST['password'];
 $password_confirmation_input=$_POST['passwordConfirmation'];
 
@@ -20,11 +21,19 @@ $query = "SELECT * FROM user WHERE email='$email_input'";
 $result = mysqli_query($connection,$query);
 $row = mysqli_fetch_array($result);
 
+$query_username = "SELECT * FROM user WHERE username='$username_input'";
+$result_username = mysqli_query($connection,$query_username);
+$row_username = mysqli_fetch_array($result_username);
+
 //Determine whether the registration information is legal
 if($password_input!=$password_confirmation_input){
     echo ('Unmatched repeated password!');
     header("refresh:3;url=register.php");
-}elseif($row){
+}elseif($row_username){
+    echo ('Username already existed, please try another one.');
+    header("refresh:3;url=browse.php");
+}
+elseif($row){
     echo ('Email address already existed, please login.');
     header("refresh:3;url=browse.php");
 }elseif(!filter_var($email_input, FILTER_VALIDATE_EMAIL)){
@@ -54,15 +63,16 @@ if($row_id){
 }
 
 
-$query_register = "INSERT INTO user(`userID`, `password`, `email`, `accountType`) VALUES ($id_iput,SHA('$password_input'),'$email_input','$account_type_input')";
+$query_register = "INSERT INTO user(`userID`, `username`, `password`, `email`, `accountType`) VALUES ($id_iput, '$username_input', SHA('$password_input'),'$email_input','$account_type_input')";
 $result_register = mysqli_query($connection,$query_register);
 
-echo("Welcome, your id is $id_iput");
+echo("Welcome, $username_input, your id is $id_iput");
 
 
 //Automatic login after registration
 $_SESSION['logged_in'] = true;
 $_SESSION['user_id'] = $id_iput;
+$_SESSION['username']=$username_input;
 if($account_type_input===0){
      $_SESSION['account_type'] = "buyer";
 }else{

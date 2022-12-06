@@ -85,7 +85,7 @@ $rating = ceil($rating);
   }
   
   // Fix language of bid vs. bids
-  if ($num_bids == 1) {
+  if ($num_bids == 0 or 1) {
     $bid = ' bid';
   }
   else {
@@ -173,7 +173,7 @@ function print_listing_ratings($item_id, $title, $desc, $price, $num_bids, $end_
   }
   
   // Fix language of bid vs. bids
-  if ($num_bids == 1) {
+  if ($num_bids == 0) {
     $bid = ' bid';
   }
   else {

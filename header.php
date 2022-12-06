@@ -10,8 +10,10 @@
     $_SESSION['logged_in'] = false;
     $_SESSION['account_type'] = 'seller';
     $_SESSION['user_id'] = null;
+    $_SESSION['username'] = null;
   }elseif($_SESSION['user_id'] != null){
     $user_id=$_SESSION['user_id'];
+    $username = $_SESSION['username'];
     $account_type = $_SESSION['account_type'];
   }
 
@@ -40,11 +42,11 @@
 
 <!-- Navbars -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
-  <a class="navbar-brand" href="#">Auction101 <!--CHANGEME!--></a>
+  <a class="navbar-brand" href="#">Auction System[Group 24] <!--CHANGEME!--></a>
   <ul class="navbar-nav ml-auto" >
   <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true){
     echo '<li class="nav-item mx-1">
-      <a class="nav-link">Welcome User '.$user_id.', you are logged in as a '.$account_type.' </a>
+      <a class="nav-link">Welcome '.$account_type.' '.$username.', your user id is '.$user_id.' </a>
     </li>';
   }
   ?> 

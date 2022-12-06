@@ -20,6 +20,13 @@
 	</div>
   </div>
   <div class="form-group row">
+    <label for="username" class="col-sm-2 col-form-label text-right">Username</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" name="username"  id="usernameRegister" placeholder="Username">
+      <small id="usernameHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
     <label for="email" class="col-sm-2 col-form-label text-right">Email</label>
 	<div class="col-sm-10">
       <input type="email" class="form-control" name="email"  id="emailRegister" placeholder="Email">
@@ -204,14 +211,12 @@ function codeCheck(){
 		document.getElementById("hiddenMsg").innerHTML = '';
 	}
 	else if(document.getElementById("verification").value == verifyCode){
-		document.getElementById("emailRegister").disabled="true";
 		document.getElementById("hiddenMsg").style.color = 'green';
 		document.getElementById("hiddenMsg").innerHTML = '&ensp;√';
 		document.getElementById("submit").disabled="";
 	}else{
 		document.getElementById("hiddenMsg").style.color = 'red';
 		document.getElementById("hiddenMsg").innerHTML = '&ensp;×';
-		document.getElementById("emailRegister").disabled="";
 		document.getElementById("submit").disabled="true";
 	}
 
