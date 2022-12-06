@@ -72,10 +72,9 @@ function display_time_remaining($interval) {
 function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time, $image, $rating)
 {
   
-  
-$rating = floatval($rating);
-$rounded_rating = round($rating, 1);
-$rating = ceil($rating);
+  $rating = floatval($rating);
+  $rounded_rating = round($rating, 1);
+  $rating = ceil($rating);
   // Truncate long descriptions
   if (strlen($desc) > 250) {
     $desc_shortened = substr($desc, 0, 250) . '...';

@@ -26,6 +26,14 @@ if (mysqli_query($connection, $query)){
   $max_page = ceil($num_results / $results_per_page);
   
   foreach ($result_fetched as $index => $item) {
+    $start = 0;
+    if (isset($_GET['page'])) {
+      $p = intval($_GET['page']);
+      $start = ($p - 1) * $results_per_page;
+    }
+    if ($index < $start || $index >= $start + $results_per_page) {
+      continue;
+    }
     $new_query = "SELECT * FROM `auctions` WHERE itemID = $item[0]";
     if(mysqli_query($connection, $new_query)){
       $result = mysqli_query($connection, $new_query);

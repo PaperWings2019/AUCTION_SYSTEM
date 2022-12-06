@@ -11,9 +11,9 @@
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
         <select class="form-control"  id="order_by" name="order_by">
-          <option value="History">Recommended according to your bidding history</option>
+          <option selected value="History">Recommended according to your bidding history</option>
           <option value="Watchlist">Recommended according to your Watchlist</option>
-          <option selected value="Competitors">Recommended according to your past competitors are currently bidding on</option>
+          <option value="Competitors">Recommended according to your past competitors are currently bidding on</option>
         </select>
       </div>
     </div>
@@ -29,6 +29,7 @@
   // Feel free to extract out useful functions from browse.php and put them in
   // the shared "utilities.php" where they can be shared by multiple files.
   // var_dump($_SESSION);
+
   
   
   // // TODO: Check user's credentials (cookie/session).
@@ -37,7 +38,7 @@
   }
   if (!isset($_GET['order_by'])) {
     // // TODO: Define behavior if an order_by value has not been specified.
-    $order_by = 'Competitors';
+    $order_by = 'History';
   }
   else {
     $order_by = $_GET['order_by'];
@@ -157,7 +158,10 @@
     $result_fetched = mysqli_fetch_all(mysqli_query($connection, $sql));
   }
   // // TODO: Loop through results and print them out as list items.
-
+  $num_results = $result->num_rows; // // TODO: Calculate me for real
+  // var_dump($num_results);
+  $results_per_page = 10;
+  $max_page = ceil($num_results / $results_per_page);
 ?>
 
 
@@ -174,7 +178,14 @@
 
 <?php
   foreach ($result_fetched as $index => $infos) {
-
+    $start = 0;
+    if (isset($_GET['page'])) {
+      $p = intval($_GET['page']);
+      $start = ($p - 1) * $results_per_page;
+    }
+    if ($index < $start || $index >= $start + $results_per_page) {
+      continue;
+    }
     $bids_number_query = "SELECT count(*) FROM `bidhistory` WHERE itemID = $infos[0]";
     if(mysqli_query($connection, $sql)){
       $bid_number_result = mysqli_query($connection, $bids_number_query);

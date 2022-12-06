@@ -39,7 +39,7 @@
             $result_cat_fetched = mysqli_fetch_all($result_cat);
             
             foreach ($result_cat_fetched as $index => $cats) {
-              echo "<option value=$cats[0]>$cats[0]</option>";
+              echo "<option value='$cats[0]'>$cats[0]</option>";
             }
           ?>
         </select>
@@ -143,6 +143,7 @@
       }
       $sql .= "ORDER BY r.rating DESC";
     }
+    // echo $sql;
     $result = mysqli_query($connection, $sql);
     // var_dump($result);
     $result_fetched = mysqli_fetch_all($result);
@@ -165,8 +166,16 @@
      retrieved from the query -->
 
 <?php
+  // var_dump($_GET);
   foreach ($result_fetched as $index => $infos) {
-
+    $start = 0;
+    if (isset($_GET['page'])) {
+      $p = intval($_GET['page']);
+      $start = ($p - 1) * $results_per_page;
+    }
+    if ($index < $start || $index >= $start + $results_per_page) {
+      continue;
+    }
     $bids_number_query = "SELECT count(*) FROM `bidhistory` WHERE itemID = $infos[0]";
     if(mysqli_query($connection, $sql)){
       $bid_number_result = mysqli_query($connection, $bids_number_query);
