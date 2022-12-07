@@ -15,7 +15,7 @@ $username_input = $_POST['username'];
 $password_input=$_POST['password'];
 $password_confirmation_input=$_POST['passwordConfirmation'];
 
-$password_pattern='/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{8,20}$/';
+$password_pattern='/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[\w\W]{8,20}$/';
 
 $query = "SELECT * FROM user WHERE email='$email_input'";
 $result = mysqli_query($connection,$query);

@@ -95,7 +95,7 @@ $(document).ready(function() {
     $("#passwordRegister").click(function(event){
 		$("#passwordHelp").toggle();
 		event.stopPropagation();	
-		if(/^[0-9A-Za-z]{8,20}$/.test($('#passwordRegister').val())){
+		if(/^[\w\W]{8,20}$/.test($('#passwordRegister').val())){
 			$("#digit_pass").show();
 			$("#digit_fail").hide();
 		}else{
@@ -103,7 +103,7 @@ $(document).ready(function() {
 			$("#digit_pass").hide();
 		}
 
-		if(/^[a-zA-Z]*$/.test($('#passwordRegister').val())){
+		if(/^[a-zA-Z_\W]*$/.test($('#passwordRegister').val())){
 			$("#number_fail").show();
 			$("#number_pass").hide();
 		}else{
@@ -111,7 +111,7 @@ $(document).ready(function() {
 			$("#number_fail").hide();
 		}
 
-    if(/^[0-9a-z]*$/.test($('#passwordRegister').val())){
+    if(/^[0-9a-z_\W]*$/.test($('#passwordRegister').val())){
 			$("#upper_fail").show();
 			$("#upper_pass").hide();
 		}else{
@@ -119,7 +119,7 @@ $(document).ready(function() {
 			$("#upper_fail").hide();
 		}
 
-    if(/^[0-9A-Z]*$/.test($('#passwordRegister').val())){
+    if(/^[0-9A-Z_\W]*$/.test($('#passwordRegister').val())){
 			$("#lower_fail").show();
 			$("#lower_pass").hide();
 		}else{
@@ -136,7 +136,7 @@ $(document).ready(function() {
 
 function OnInput (event) {
 	$(document).ready(function() {
-		if(/^[0-9A-Za-z]{8,20}$/.test($('#passwordRegister').val())){
+		if(/^[\w\W]{8,20}$/.test($('#passwordRegister').val())){
 			$("#digit_pass").show();
 			$("#digit_fail").hide();
 		}else{
@@ -144,7 +144,7 @@ function OnInput (event) {
 			$("#digit_pass").hide();
 		}
 
-		if(/^[a-zA-Z]*$/.test($('#passwordRegister').val())){
+		if(/^[a-zA-Z_\W]*$/.test($('#passwordRegister').val())){
 			$("#number_fail").show();
 			$("#number_pass").hide();
 		}else{
@@ -152,7 +152,7 @@ function OnInput (event) {
 			$("#number_fail").hide();
 		}
 
-    if(/^[0-9a-z]*$/.test($('#passwordRegister').val())){
+    if(/^[0-9a-z_\W]*$/.test($('#passwordRegister').val())){
 			$("#upper_fail").show();
 			$("#upper_pass").hide();
 		}else{
@@ -160,7 +160,7 @@ function OnInput (event) {
 			$("#upper_fail").hide();
 		}
 
-    if(/^[0-9A-Z]*$/.test($('#passwordRegister').val())){
+    if(/^[0-9A-Z_\W]*$/.test($('#passwordRegister').val())){
 			$("#lower_fail").show();
 			$("#lower_pass").hide();
 		}else{
