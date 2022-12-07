@@ -6,7 +6,8 @@
 
 session_start();
 
-include_once('database.php');   
+include_once('database.php');
+//require('register.php');   
 
 //collect registration information
 $account_type_input=$_POST['accountType'];
@@ -14,6 +15,7 @@ $email_input=$_POST['email'];
 $username_input = $_POST['username'];
 $password_input=$_POST['password'];
 $password_confirmation_input=$_POST['passwordConfirmation'];
+$verification_input = $_POST['verification'];
 
 $password_pattern='/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[\w\W]{8,20}$/';
 
@@ -26,7 +28,14 @@ $result_username = mysqli_query($connection,$query_username);
 $row_username = mysqli_fetch_array($result_username);
 
 //Determine whether the registration information is legal
-if($password_input!=$password_confirmation_input){
+if(!$username_input){
+    echo ('Please enter a username!');
+    header("refresh:3;url=register.php");
+}elseif(!$email_input){
+    echo ('Please enter an email!');
+    header("refresh:3;url=register.php");
+}
+elseif($password_input!=$password_confirmation_input){
     echo ('Unmatched repeated password!');
     header("refresh:3;url=register.php");
 }elseif($row_username){
@@ -40,7 +49,7 @@ elseif($row){
     echo "$email_input is NOT a valid email address.";
     header("refresh:3;url=register.php");
 }elseif(!preg_match($password_pattern,$password_input)){
-    echo ('Please make sure that you entered a password with 8-20 characters with a combination of only letters and numbers, including a number, an upper case letter, and a lower case letter');
+    echo ('Please entere a password with 8-20 characters including a number, an upper case letter, and a lower case letter');
     header("refresh:3;url=register.php");
 }
 else{

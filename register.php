@@ -60,8 +60,8 @@
   <div class="form-group row">
     <label for="verification" class="col-sm-2 col-form-label text-right">Verification code</label>
 	<div class="col-sm-3">
-      <input type="text" class="form-control" name="verification"  id="verification" placeholder="Enter the verification code" style="width:90%; display:inline; " onchange="codeCheck()"><b id="hiddenMsg"></b>
-      <small id="verificationHelp" class="required form-text text-muted"><span class="text-danger">* Required.</span></small>
+      <input type="text" required class="form-control" name="verification"  id="verification" placeholder="Enter the verification code" style="width:90%; display:inline; " onchange="codeCheck()"><b id="hiddenMsg"></b>
+      <small id="verificationHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
 	</div>
 	<div class="col-sm-2">
 		<button type="button" class="btn btn-primary form-control" onclick="sendEmail()">Send to email</button>
