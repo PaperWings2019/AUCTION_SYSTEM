@@ -133,15 +133,21 @@
       $sql .= 'AND a.auctionStatus = 1 ';
       $sql .= 'ORDER BY a.highestBId DESC';
     } elseif ($order_by == 'ratings') {
-      $sql = "SELECT DISTINCT *
+      $sql = "SELECT *
               FROM auctions a
-              JOIN ratings r ON (a.itemID = r.itemID)
+              JOIN (SELECT 
+                    sellerID, AVG(r.rating) as rat
+                    FROM
+                    auctions a
+                    JOIN ratings r ON (a.itemID = r.itemID)
+                    GROUP BY sellerID) AS t 
+              ON a.sellerID = t.sellerID
               WHERE (a.itemDescription LIKE '%$keyword%'
               OR a.itemName LIKE '%$keyword%') ";
       if ($category != 'all') {
         $sql .= "AND a.category = '$category' ";
       }
-      $sql .= "ORDER BY r.rating DESC";
+      $sql .= "ORDER BY rat DESC";
     }
     // echo $sql;
     $result = mysqli_query($connection, $sql);
