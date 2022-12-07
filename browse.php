@@ -148,7 +148,7 @@
     // var_dump($result);
     $result_fetched = mysqli_fetch_all($result);
     // var_dump($result_fetched);
-    $num_results = $result->num_rows; // // TODO: Calculate me for real
+    $num_results = count($result_fetched); // // TODO: Calculate me for real
     // var_dump($num_results);
     $results_per_page = 10;
     $max_page = ceil($num_results / $results_per_page);

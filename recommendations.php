@@ -158,7 +158,7 @@
     $result_fetched = mysqli_fetch_all(mysqli_query($connection, $sql));
   }
   // // TODO: Loop through results and print them out as list items.
-  $num_results = $result->num_rows; // // TODO: Calculate me for real
+  $num_results = count($result_fetched); // // TODO: Calculate me for real
   // var_dump($num_results);
   $results_per_page = 10;
   $max_page = ceil($num_results / $results_per_page);
