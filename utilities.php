@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //mail function , needs recipient email address, subject, and html content of the email
-function sendmail($recipient, $subject, $content){
+function sendmail($recipient, $subject, $content, $headerinfor = True){
     $mail = new PHPMailer();
 	$mail->isSMTP();
 
@@ -36,14 +36,18 @@ function sendmail($recipient, $subject, $content){
 	$mail->Body = $content;
 //Add recipient
 	$mail->addAddress($recipient);
-	
-    if ( $mail->send() ) {
-		echo "Email Sent..!";
-	}else{
-		echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-	}
-	$mail->smtpClose();
+  if ( $mail->send() ) {
+    if ($headerinfor){
+    echo "Email Sent..!";
+    }
+  }
+  else{
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+  }
+      
+  $mail->smtpClose();
 }
+
 
 
 // display_time_remaining:

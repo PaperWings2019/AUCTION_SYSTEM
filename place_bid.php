@@ -70,6 +70,26 @@ if (empty($bidInput)){
                         Timestamp: ".$bidSubmitTime."</p>";
         sendmail($recipient, $subject, $content);
     }
+    //check if there is buyers added this item to watchlist
+    $buyer_watchlist_email = "SELECT email From user WHERE userID in (SELECT userID FROM watchlist WHERE itemID = $item_id AND userID <> $SESSION_id)";
+    $watchlist_email_results = mysqli_query($connection,$buyer_watchlist_email);
+    $watchlist_email = mysqli_fetch_all($watchlist_email_results);
+    
+    if (!empty($watchlist_email)){
+        $watchlist = 
+        $subject = "Undate on item in your watchlsit";
+        $content = "<h1>Item in your watchlist now has been bidded for a new bid price! </h1></br>
+                    <h2>If you have bided for this item, it means that currently you have been outbid. </h2></br>
+                    <p>Bid info: <br>
+                    Item: ".$item_info_pre[1]."<br>
+                    Seller: ".$item_info_pre[7]."<br>
+                    New Bid amount: £".$bidInput." <br>
+                    Timestamp: ".$bidSubmitTime."</p>";
+        foreach ($watchlist_email as $current_recipient){
+            sendmail($current_recipient[0], $subject, $content, FALSE);
+        }
+
+    }
 
     //update auctions table with new bid and buyer
     $update_sql = "UPDATE auctions SET highestBid = $bidInput, buyerID = $SESSION_id where itemID = $item_id";
@@ -120,3 +140,15 @@ if($row_id){
 header("refresh:1;url=listing.php?item_id=$item_id");
 }
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
