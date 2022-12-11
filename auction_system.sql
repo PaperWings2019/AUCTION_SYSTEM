@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 --
 -- 数据库： `auction_system`
 --
+DROP DATABASE IF EXISTS `auction_system`;
+CREATE DATABASE IF NOT EXISTS`auction_system`;
+USE `auction_system`;
 
 -- --------------------------------------------------------
 

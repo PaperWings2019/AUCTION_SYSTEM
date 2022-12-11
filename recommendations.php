@@ -9,11 +9,11 @@
   <div class="row" style="padding-bottom: 20px;">
     <div class="col-md-8 pr-0">
       <div class="form-inline">
-        <label class="mx-2" for="order_by">Sort by:</label>
+        <label class="mx-2" for="order_by">Recommendations according to:</label>
         <select class="form-control"  id="order_by" name="order_by">
-          <option selected value="History">Recommended according to your bidding history</option>
-          <option value="Watchlist">Recommended according to your Watchlist</option>
-          <option value="Competitors">Recommended according to your past competitors are currently bidding on</option>
+          <option selected value="History">your bidding history</option>
+          <option value="Watchlist">your Watchlist</option>
+          <option value="Competitors">others who have bid on the same item</option>
         </select>
       </div>
     </div>

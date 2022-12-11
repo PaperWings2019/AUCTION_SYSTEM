@@ -56,7 +56,7 @@ if (empty($bidInput)){
         $get_buyer_info = "SELECT * FROM user WHERE userID=$prev_buyer";
         $buyer_info_result = mysqli_query($connection, $get_buyer_info);
         $buyer_info = mysqli_fetch_array($buyer_info_result);
-        $buyer_email = $buyer_info[2];
+        $buyer_email = $buyer_info[3];
 
         //send email to previous bidder
         $recipient = $buyer_email;
@@ -125,7 +125,7 @@ if($row_id){
     
 
     //send email to bidder
-    $recipient = $bidder_info[2];
+    $recipient = $bidder_info[3];
     $subject = "Bid placed!";
     $content = "<h1>Your bid has been placed successfully! </h1></br>
                     <p>Bid info: <br>
