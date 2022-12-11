@@ -77,9 +77,9 @@ if (empty($bidInput)){
     
     if (!empty($watchlist_email)){
         $watchlist = 
-        $subject = "Undate on item in your watchlsit";
-        $content = "<h1>Item in your watchlist now has been bidded for a new bid price! </h1></br>
-                    <h2>If you have bidded for this item, it means that currently you have been outbid. </h2></br>
+        $subject = "Undate on item in your watchlist";
+        $content = "<h1>Item in your watchlist now has been bidded for a new price! </h1></br>
+                    <p>If you have bidded on this item, it means you have been outbid. </p></br>
                     <p>Bid info: <br>
                     Item: ".$item_info_pre[1]."<br>
                     Seller: ".$item_info_pre[7]."<br>
